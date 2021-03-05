@@ -2,10 +2,39 @@
   text-align: center;
 }
 
-.App-logo {
+
+form{
+  width: 80%;
+  margin-top:20%;
+  margin-left: 10%;
+  border:1px solid #5c7f3f;
+  padding: 35px;
+  border-radius: 8px;
+}
+
+.butt{
+  color: white;
+  background-color: #304f30;
+  border: none;
+  width: 90%;
+}
+.butt:hover{
+  color: white;
+  background-color:#5c7f3f;
+}
+th{
+  font-family: arial;
+  font-size: 15px;
+}
+td{
+  font-family: arial;
+  font-size: 13px;
+}
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -35,4 +64,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

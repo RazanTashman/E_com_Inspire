@@ -1,26 +1,12 @@
 const model = require('./model')
 
 module.exports = {
-
-  signUp: (req, res) => {
-    const data = [req.body.fName, req.body.lName, req.body.email, req.body.password, "user"]
-    model.signUp(data, (error, result) => {
-      if (error)
-        console.log("error from controller", error)
-      else {
-        console.log("error from controller", error)
-      }
-      res.send(result)
-    })
-
-  },
-
-
-  signUpShop: (req, res) => {
-    const user = [req.body.email, req.body.password, "shop"]
+  registration: (req, res) => {
+    const user = [req.body.email, req.body.password,  req.body.type]
     const shop = [req.body.shopName, req.body.phoneNo, req.body.address]
     console.log("shhoooop", shop)
-    model.signUpShop(user, shop, (error, result) => {
+    console.log("useeeeer", user)
+    model.registration(user, shop, (error, result) => {
       if (error)
         console.log("error from controller", error)
       else {
@@ -47,7 +33,7 @@ module.exports = {
   },
 
   addProduct: (req, res) => {
-    var id = req.body.shopId
+    var id = req.body.userId
     console.log ("daaaaaaaaaata",req.body) 
     const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,req.body.image]
     console.log ("data",data)
@@ -71,6 +57,18 @@ module.exports = {
       res.send(result)
     })
   },
+  getCatProduct: (req, res) => {
+    var catId=req.params.catId
+    console.log("catId", catId)
+    model.getCatProduct(catId,(error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
 
   getShopProduct: (req, res) => {
     const id = req.params.id
@@ -82,6 +80,18 @@ module.exports = {
     }
     res.send(result)
   })
+},
+
+getStore: (req, res) => {
+  const id = req.params.id
+  model.getStore(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
 },
 shopDetails: (req, res) => {
   const shop =req.params.id
@@ -98,7 +108,7 @@ shopDetails: (req, res) => {
 
 
 getCategories:(req, res) => {
-  model.getCategories(shop,(error, result) => {
+  model.getCategories((error, result) => {
   if (error)
     console.log("error from controller", error)
   else {
@@ -107,6 +117,20 @@ getCategories:(req, res) => {
   res.send(result)
 })
 },
+
+getProductDetails: (req, res) => {
+  const id =req.params.id
+  model.getProductDetails(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+
 getOneProduct: (req, res) => {
   const id =req.params.id
   model.getOneProduct(id,(error, result) => {
@@ -135,6 +159,9 @@ editProduct: (req, res) => {
 
 deletProduct: (req, res) => {
   const id = req.params.id
+  const user = req.params.user
+  console.log("id:::", id)
+  console.log("id:::", user)
   model.deletProduct(id,(error, result) => {
   if (error)
     console.log("error from controller", error)

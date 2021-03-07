@@ -1,9 +1,7 @@
 const router = require("express").Router()
 const controller = require ('./controllers.js')
 
-router.post("/user/signup", controller.signUp);
-
-router.post("/shop/signup", controller.signUpShop);
+router.post("/registration", controller.registration);
 
 router.post("/signin", controller.signIn);
 
@@ -11,13 +9,19 @@ router.post("/shop/addproduct", controller.addProduct);
 
 router.get("/user/products", controller.getAllProduct);
 
+router.get("/user/products/:catId", controller.getCatProduct);
+
 router.get("/shop/products/:id", controller.getShopProduct);
+
+router.get("/store/:id", controller.getStore);
+
+router.get("/product/:id", controller.getProductDetails);
 
 router.get("/shop/product/:id", controller.getOneProduct);
 
 router.put("/shop/product/:id", controller.editProduct);
 
-router.delete("/shop/product/:id", controller.deletProduct);
+router.delete("/shop/product/:id/:user", controller.deletProduct);
 
 router.get("/shop/:id", controller.shopDetails);
 

@@ -1,6 +1,7 @@
 import React from "react"
 import $ from "jquery"
 import "./shops.css"
+import Products from "./products"
 class editProduct extends React.Component {
     constructor(props) {
         super(props)
@@ -14,6 +15,7 @@ class editProduct extends React.Component {
             productNameEr: "",
             priceEr: "",
             categoriesEr: "",
+            formType:true,
           }
     }
     
@@ -21,7 +23,7 @@ class editProduct extends React.Component {
         let that = this
         $.ajax({
             method: 'GET',
-            url: `http://localhost:5000/shop/${localStorage.getItem("productId")}`,
+            url: `http://localhost:5000/shop/product/${localStorage.getItem("productId")}`,
             contentType: "application/json",
             success: function (data) {
              console.log("dataaaa:",data)
@@ -48,6 +50,7 @@ class editProduct extends React.Component {
       }
 
       submit(){
+        this.setState({ formType: false }) 
         var data= {
             productName:this.state.productName, 
             price:this.state.price, 
@@ -77,6 +80,7 @@ class editProduct extends React.Component {
     render() {
         return (
             <div>
+                {this.state.formType ?
                 <form action="/items" style={{ marginTop :"12%" , marginLeft:"30%" ,width: "40%"}}  className="FORM">
 
                     <div class="form-group">
@@ -124,11 +128,12 @@ class editProduct extends React.Component {
                     <br /><br />
                     <div>
                         {/* {this.renderRedirect()} */}
-                        <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg text-white "> Add</button>
+                        <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg text-white "> Edit </button>
                     </div>
                 </form>
-
-
+            :
+            <Products/>
+                }
             </div>
         )
     }

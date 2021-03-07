@@ -6,19 +6,54 @@ class Products extends React.Component {
         super(props)
             this.state ={
                 rendering: true, 
+                products:[]
             }
             
         }
 
         componentDidMount(){
-          
-            this.setState({rendering: this.props.rendering})
-            console.log("rendering:::", this.state.rendering)
+            var that = this
+            $.ajax({
+              method: 'GET',
+              url: `http://localhost:5000/shop/products/${localStorage.getItem("id")}`,
+              contentType: "application/json",
+              success: function (data) {
+                console.log("daaaaata:", data[0].image)
+                that.setState({ products: data })
+              },
+              error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+              }
+            })
+            // this.setState({rendering: this.props.rendering})
+            // console.log("rendering:::", this.state.rendering)
         }
 
         edit(productId){
             localStorage.setItem("productId",productId)
             this.setState({rendering: false})          
+        }
+
+        delete(id){
+            var that = this
+            $.ajax({
+              method: 'DELETE',
+              url: `http://localhost:5000/shop/product/${id}/${localStorage.getItem('id')}`,
+            //   url: 'http://localhost:5000/shop/product'+ '?' + + $.param({id: id, user: localStorage.getItem('id')}),
+              contentType: "application/json",
+        
+              success: function (data) {
+                console.log("daaaaatssa:", data)
+                that.setState({
+                    products: data
+                });
+              },
+        
+              error: function (err) {
+                console.log('error:', err)
+              }
+            })
         }
 
      
@@ -45,7 +80,7 @@ class Products extends React.Component {
   </thead>
   <tbody>
       
-      {this.props.products.map((product) =>{
+      {this.state.products.map((product) =>{
           return (
             <tr>
             <th scope="row">{this.count++}</th>
@@ -54,7 +89,8 @@ class Products extends React.Component {
             <td>{product.description}</td>
             <td>{product.categories}</td>
           
-            <td>  <img onClick ={()=>URL.revokeObjectURL(new Blob([104, 116, 116, 112, 115, 58, 47, 47, 119, 97, 108, 108, 112, 97, 112, 101, 114, 99, 97, 118, 101, 46, 99, 111, 109, 47, 119, 112, 47, 119, 112, 51, 49, 57, 52, 53, 52, 57, 46, 112, 110, 103]))} src= {URL.createObjectURL(new Blob([104, 116, 116, 112, 115, 58, 47, 47, 119, 97, 108, 108, 112, 97, 112, 101, 114, 99, 97, 118, 101, 46, 99, 111, 109, 47, 119, 112, 47, 119, 112, 51, 49, 57, 52, 53, 52, 57, 46, 112, 110, 103] , {type: "image/png"})) }/> </td>
+            <td>  <img src= {URL.createObjectURL(new Blob([product.image], {type: "image/png"})) }/> </td>
+            {console.log("IMG::", URL.createObjectURL(new Blob([product.image], {type: "image/png"})))}
             {/* new File([blob], "filename.json", {type: "text/json;charset=utf-8"}); */}
      {/* <td>{product.image}</td> */}
             <td>

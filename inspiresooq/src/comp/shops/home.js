@@ -46,20 +46,7 @@ class Home extends React.Component {
 
   getProducts(id) {
     this.setState({ rendering: id })
-    var that = this
-    $.ajax({
-      method: 'GET',
-      url: `http://localhost:5000/shop/products/${localStorage.getItem("id")}`,
-      contentType: "application/json",
-      success: function (data) {
-        console.log("daaaaata:", data[2].image.data)
-        that.setState({ products: data })
-      },
-      error: function (err) {
-        console.log("err", err)
-        that.setState({ emailError: err.responseText })
-      }
-    })
+
   }
 
 
@@ -137,7 +124,7 @@ class Home extends React.Component {
         </div>
         {this.state.rendering === 1 && <Profile shopeName={this.state.shopeName} phoneNo={this.state.phoneNo} address={this.state.address} />}
         {/* {this.state.rendering === 1 && <Profile shop ={this.state.shop} />} */}
-        {this.state.rendering === 2 && <MyProducts products={this.state.products} rendering={true} />}
+        {this.state.rendering === 2 && <MyProducts  />}
         {this.state.rendering === 3 && <AddProduct />}
         {/* <MyProducts products={this.state.products}/> */}
         {/* <AddProduct/> */}

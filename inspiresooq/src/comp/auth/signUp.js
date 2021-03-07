@@ -50,7 +50,8 @@ class signUp extends React.Component {
       this.setState({ shopNameError: this.state.shopNameError, phoneNoError: this.state.phoneNoError, addressError: this.state.addressError, emailErrorShop: this.state.emailErrorShop, passwordErrorShop: this.state.passwordErrorShop })
     else {
       e.preventDefault();
-      this.signUpShop(e)
+      this.signUp("shop", this.state.emailShop, this.state.passwordShop)
+      // this.signUpShop(e)
     }
 
   }
@@ -74,7 +75,7 @@ class signUp extends React.Component {
       this.setState({ fNameError: this.state.fNameError, lNameError: this.state.lNameError, emailError: this.state.emailError, passwordError: this.state.passwordError })
     else {
       e.preventDefault();
-      this.signUp(e)
+      this.signUp("user", this.state.email, this.state.password)
     }
   }
 
@@ -110,17 +111,21 @@ class signUp extends React.Component {
 
   }
 
-  signUp() {
+  signUp(type, email, password) {
     let data = {
+      shopName: this.state.shopName,
+      phoneNo: this.state.phoneNo,
+      address: this.state.address,
       fName: this.state.fName,
       lName: this.state.lName,
-      email: this.state.email,
-      password: this.state.password
+      password: password,
+      email: email,
+      type: type,
     }
     var that = this
     $.ajax({
       method: 'POST',
-      url: 'http://localhost:5000/user/signup',
+      url: 'http://localhost:5000/registration',
       data: JSON.stringify(data),
       contentType: "application/json",
       success: function (data) {

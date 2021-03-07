@@ -1,6 +1,7 @@
 import React from "react"
 import $ from "jquery"
 import "./shops.css"
+import Products from "./products"
 class addProduct extends React.Component {
     constructor(props) {
         super(props)
@@ -9,11 +10,12 @@ class addProduct extends React.Component {
             price: "",
             description: "",
             categories: "",
-            image: null,
+            image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
             redirect: false,
             productNameEr: "",
             priceEr: "",
             categoriesEr: "",
+            formType:true,
           }
     }
     getTheInfo(event) {
@@ -23,6 +25,7 @@ class addProduct extends React.Component {
       }
 
       submit(){
+        this.setState({ formType: false }) 
         var data= {
             productName:this.state.productName, 
             price:this.state.price, 
@@ -40,7 +43,7 @@ class addProduct extends React.Component {
           contentType: "application/json",
           success: function (data) {
            console.log("dataaaa:",data)
-          //  that.setState({products: data})
+           that.setState({products: data})
           },
           error: function (err) {
             console.log("err", err)
@@ -52,6 +55,7 @@ class addProduct extends React.Component {
     render() {
         return (
             <div>
+        {this.state.formType ?
                 <form action="/items" style={{ marginTop :"12%" , marginLeft:"30%" ,width: "40%"}} className="FORM">
 
                     <div class="form-group">
@@ -101,6 +105,9 @@ class addProduct extends React.Component {
                         <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg text-white "> Add</button>
                     </div>
                 </form>
+                :
+                <Products/>
+            }
 
 
             </div>

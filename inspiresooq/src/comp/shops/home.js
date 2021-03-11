@@ -47,6 +47,8 @@ class Home extends React.Component {
   getProducts(id) {
     this.setState({ rendering: id })
 
+    
+
   }
 
 
@@ -57,6 +59,7 @@ class Home extends React.Component {
     }
     return (
       <div>
+        {console.log("home:", this.state.rendering)}
         <Nav />
         <div className="container" style={{ margin: "8%" }}>
           <div className="row">
@@ -64,7 +67,7 @@ class Home extends React.Component {
               <div className="flip-card" onClick ={() => this.getShop(1)}>
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
-                    <img  src={shop} alt="Avatar" style={{width:"200px", height:"200px"}} />
+                    <img  src={shop} alt="Avatar" style={{width:"100px", height:"100px"}} />
                   </div>
                   <div className="flip-card-back">
                   <h1 className="card-text" style={header}>My Shop</h1>
@@ -84,7 +87,7 @@ class Home extends React.Component {
             <div className="flip-card" onClick={() => this.setState({ rendering: 3 })}>
                 <div className="flip-card-inner">
                   <div className="flip-card-front">
-                    <img  src={add} alt="Avatar" style={{width:"200px", height:"200px"}} />
+                    <img  src={add} alt="Avatar" style={{width:"100px", height:"100px"}} />
                   </div>
                   <div className="flip-card-back">
                   <h1 className="card-text" style={header}>Add New Product</h1>
@@ -104,7 +107,7 @@ class Home extends React.Component {
             <div className="flip-card"  onClick={() => this.getProducts(2)}>
                 <div className="flip-card-inner" >
                   <div className="flip-card-front">
-                    <img  src={products} alt="Avatar" style={{width:"200px", height:"200px"}} />
+                    <img  src={products} alt="Avatar" style={{width:"100px", height:"100px"}} />
                   </div>
                   <div className="flip-card-back">
                   <h1 className="card-text" style={header}>My Products</h1>
@@ -124,7 +127,7 @@ class Home extends React.Component {
         </div>
         {this.state.rendering === 1 && <Profile shopeName={this.state.shopeName} phoneNo={this.state.phoneNo} address={this.state.address} />}
         {/* {this.state.rendering === 1 && <Profile shop ={this.state.shop} />} */}
-        {this.state.rendering === 2 && <MyProducts  />}
+        {this.state.rendering === 2 && <MyProducts rendering ={this.state.rendering} />}
         {this.state.rendering === 3 && <AddProduct />}
         {/* <MyProducts products={this.state.products}/> */}
         {/* <AddProduct/> */}

@@ -16,7 +16,10 @@ class editProduct extends React.Component {
             priceEr: "",
             categoriesEr: "",
             formType:true,
+            rendering: this.props.rendering
           }
+
+          console.log("this.props.rendering::",this.state.rendering)
     }
     
     componentDidMount(){
@@ -49,8 +52,10 @@ class editProduct extends React.Component {
         console.log(event.target.value)
       }
 
-      submit(){
-        this.setState({ formType: false }) 
+      edit(){
+        // this.setState({ formType: false }) 
+        this.setState({ rendering: 2 }) 
+
         var data= {
             productName:this.state.productName, 
             price:this.state.price, 
@@ -80,11 +85,12 @@ class editProduct extends React.Component {
     render() {
         return (
             <div>
-                {this.state.formType ?
-                <form action="/items" style={{ marginTop :"12%" , marginLeft:"30%" ,width: "40%"}}  className="FORM">
+                { console.log("edit:", this.state.rendering)}
+                {this.state.rendering === 4 ?
+                <form action="/items" style={{ marginTop :"8%" , marginLeft:"30%" ,width: "40%"}}  className="FORM">
 
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Item Name" value= {this.state.productName} name="productName" required="required" onChange={(e) => this.getTheInfo(e)} />
+                    <div className="form-group">
+                        <input type="text" className="form-control" placeholder="Item Name" value= {this.state.productName} name="productName" required="required" onChange={(e) => this.getTheInfo(e)} />
                         <div style={{ fontSize: 12, color: "red" }}>
                             {this.state.productNameEr}
                         </div>
@@ -92,8 +98,8 @@ class editProduct extends React.Component {
 
                     <br />
 
-                    <div class="form-group">
-                        <input type="number" class="form-control" placeholder="Item Price" value= {this.state.price} name="price" required="required" onChange={(e) => this.getTheInfo(e)} />
+                    <div className="form-group">
+                        <input type="number" className="form-control" placeholder="Item Price" value= {this.state.price} name="price" required="required" onChange={(e) => this.getTheInfo(e)} />
                         <div style={{ fontSize: 12, color: "red" }}>
                             {this.state.productPriceEr}
                         </div>
@@ -101,12 +107,12 @@ class editProduct extends React.Component {
 
                     <br />
 
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Description" value= {this.state.description} name="description" required="required" onChange={(e) => this.getTheInfo(e)} />
+                    <div className="form-group">
+                        <input type="text" className="form-control" placeholder="Description" value= {this.state.description} name="description" required="required" onChange={(e) => this.getTheInfo(e)} />
                     </div>
                     <br />
 
-                    <select name="categories" id="inputState" value= {this.state.categories} class="form-control" required="required"
+                    <select name="categories" id="inputState" value= {this.state.categories} className="form-control" required="required"
                         onChange={(e) => this.getTheInfo(e)}  >
                         <option name="" disabled>Choose option</option>
                         <option value="electronics" >Electronics</option>
@@ -120,19 +126,19 @@ class editProduct extends React.Component {
                     </select>
                     <br />
 
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile" required="required"  />
-                        <label class="custom-file-label" for="customFile">Pick Image</label>
+                    <div className="custom-file">
+                        <input type="file" className="custom-file-input" id="customFile" required="required"  />
+                        <label className="custom-file-label" for="customFile">Pick Image</label>
                     </div>
 
                     <br /><br />
                     <div>
                         {/* {this.renderRedirect()} */}
-                        <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg text-white "> Edit </button>
+                        <button type="button" onClick={this.edit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg text-white "> Edit </button>
                     </div>
                 </form>
             :
-            <Products/>
+            <Products rendering ={this.state.rendering}/>
                 }
             </div>
         )

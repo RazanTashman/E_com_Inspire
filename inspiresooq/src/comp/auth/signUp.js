@@ -51,7 +51,7 @@ class signUp extends React.Component {
     else {
       e.preventDefault();
       this.signUp("shop", this.state.emailShop, this.state.passwordShop)
-      // this.signUpShop(e)
+    
     }
 
   }
@@ -79,37 +79,6 @@ class signUp extends React.Component {
     }
   }
 
-
-  signUpShop() {
-    let data = {
-      shopName: this.state.shopName,
-      phoneNo: this.state.phoneNo,
-      address: this.state.address,
-      email: this.state.emailShop,
-      password: this.state.passwordShop
-    }
-    var that = this
-    $.ajax({
-      method: 'POST',
-      url: 'http://localhost:5000/shop/signup',
-      data: JSON.stringify(data),
-      contentType: "application/json",
-      success: function (data) {
-
-        if (data.length !== 0)
-          that.setState({ emailErrorShop: "Email already in use " })
-        else
-          that.setState({
-            redirect: true
-          })
-      },
-      error: function (err) {
-        console.log("err", err)
-        that.setState({ emailError: err.responseText })
-      }
-    })
-
-  }
 
   signUp(type, email, password) {
     let data = {
@@ -215,19 +184,19 @@ class signUp extends React.Component {
                   </div>
 
 
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <input type="password" className="form-control" placeholder="Password" name="password" required="required" onChange={(e) => this.getTheInfo(e)} />
                     <div style={{ fontSize: 12, color: "red" }}>
                       {this.state.passwordError}
                     </div>
-                  </div>
+                  </div> */}
                   <br />
 
                   <div className="form-group">
                     {this.renderRedirect()}
                     <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validation(e)}>Sign Up</button>
                   </div>
-
+                  <a href ='/login'> Already have an account? sign in</a>
                 </form>
 
 
@@ -261,20 +230,20 @@ class signUp extends React.Component {
                       {this.state.addressError}
                     </div>
                   </div>
-
+{/* 
                   <div className="form-group">
                     <input type="password" className="form-control" placeholder="Password" name="passwordShop" required="required" onChange={(e) => this.getTheInfo(e)} />
                     <div style={{ fontSize: 12, color: "red" }}>
                       {this.state.passwordErrorShop}
                     </div>
-                  </div>
+                  </div> */}
                   <br />
 
                   <div className="form-group">
                     {this.renderRedirect()}
                     <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validationShops(e)}>Sign Up</button>
                   </div>
-
+                  <a href ='/login'> Already have an account? sign in</a>
                 </form>
               }
             </div>

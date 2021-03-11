@@ -13,6 +13,8 @@ router.get("/user/products/:catId", controller.getCatProduct);
 
 router.get("/shop/products/:id", controller.getShopProduct);
 
+router.get("/shop/products/image/:id", controller.getShopImage);
+
 router.get("/store/:id", controller.getStore);
 
 router.get("/product/:id", controller.getProductDetails);
@@ -26,6 +28,8 @@ router.delete("/shop/product/:id/:user", controller.deletProduct);
 router.get("/shop/:id", controller.shopDetails);
 
 router.get("/categories", controller.getCategories);
+
+router.get("/usertype/:id", controller.getUserType);
 
 
 // http://localhost:5000/shop?shop=s&id=74

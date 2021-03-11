@@ -8,14 +8,17 @@
     margin: auto;
     text-align: center;
     font-family: arial;
+    /* cursor: pointer; */
     /* padding: 50%; */
 }
+
 .flip-card {
     background-color: transparent;
-    width: 200px;
-    height: 100px;
+    width: 120px;
+    height: 50px;
     border: 1px  #f1f1f1;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
+    cursor: pointer;
   }
   
   /* This container is needed to position the front and back side */

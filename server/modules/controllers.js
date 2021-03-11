@@ -2,7 +2,7 @@ const model = require('./model')
 
 module.exports = {
   registration: (req, res) => {
-    const user = [req.body.email, req.body.password,  req.body.type]
+    const user = [req.body.email, req.body.type]
     const shop = [req.body.shopName, req.body.phoneNo, req.body.address]
     console.log("shhoooop", shop)
     console.log("useeeeer", user)
@@ -35,7 +35,20 @@ module.exports = {
   addProduct: (req, res) => {
     var id = req.body.userId
     console.log ("daaaaaaaaaata",req.body) 
-    const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,req.body.image]
+  
+    
+var buf = Buffer.from(req.body.image, 'base64'); // T
+// console.log("buf::",byteCharacters);
+//  const byteNumbers = new Array(byteCharacters.length);
+//                             for (let i = 0; i < byteCharacters.length; i++) {
+//                                 byteNumbers[i] = byteCharacters.charCodeAt(i);
+//                             }
+
+                            // const buf = new Uint8Array(byteCharacters);
+console.log("buf::",buf);
+
+// console.log('"' + data + '" converted to Base64 is "' + base64data + '"');
+    const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,buf]
     console.log ("data",data)
     model.addProduct(data,id, (error, result) => {
       if (error)
@@ -82,6 +95,18 @@ module.exports = {
   })
 },
 
+getShopImage: (req, res) => {
+  const id = req.params.id
+  model.getShopImage(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
 getStore: (req, res) => {
   const id = req.params.id
   model.getStore(id,(error, result) => {
@@ -94,9 +119,9 @@ getStore: (req, res) => {
 })
 },
 shopDetails: (req, res) => {
-  const shop =req.params.id
-  console.log("controller" , shop)
-  model.shopDetails(shop,(error, result) => {
+  const user =req.params.id
+  console.log("controller" , user)
+  model.shopDetails(user,(error, result) => {
   if (error)
     console.log("error from controller", error)
   else {
@@ -118,6 +143,18 @@ getCategories:(req, res) => {
 })
 },
 
+getUserType: (req, res) => {
+  const user =req.params.id
+  console.log("controller" , user)
+  model.getUserType(user,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
 getProductDetails: (req, res) => {
   const id =req.params.id
   model.getProductDetails(id,(error, result) => {
@@ -162,7 +199,7 @@ deletProduct: (req, res) => {
   const user = req.params.user
   console.log("id:::", id)
   console.log("id:::", user)
-  model.deletProduct(id,(error, result) => {
+  model.deletProduct(id,user,(error, result) => {
   if (error)
     console.log("error from controller", error)
   else {

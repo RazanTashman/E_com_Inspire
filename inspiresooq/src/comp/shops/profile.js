@@ -19,7 +19,7 @@ class Profile extends React.Component {
 return(
     <div>
        
-                    <div style={{ marginTop :"20%"}}>
+                    <div style={{ marginTop :"15%"}}>
                         <div className="card" style={{ width: "50%" }}>
                             <img className="border border-success card-img-top rounded-circle" src={shop} style={{ marginTop:"-30%",marginLeft:"15%", width:"200px", height:"200px"}} alt="Card image cap" />
                             <div className="card-body">

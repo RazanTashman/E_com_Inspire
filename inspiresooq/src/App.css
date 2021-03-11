@@ -72,8 +72,11 @@ td{
   margin: auto;
   text-align: center;
   font-family: arial;
+  
 }
-
+.card:hover{
+  cursor: pointer;
+}
 .price {
   color: grey;
   font-size: 22px;

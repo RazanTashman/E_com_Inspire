@@ -1,12 +1,15 @@
+const con = require('../db/db')
 const model = require('./model')
 
 module.exports = {
   registration: (req, res) => {
-    const user = [req.body.email, req.body.type]
+    var otp = Math.floor(Math.random()*(1000000-100000) +100000) 
+    const user = [req.body.email, otp ,req.body.type]
     const shop = [req.body.shopName, req.body.phoneNo, req.body.address]
+
     console.log("shhoooop", shop)
     console.log("useeeeer", user)
-    model.registration(user, shop, (error, result) => {
+    model.registration(user, shop, otp, (error, result) => {
       if (error)
         console.log("error from controller", error)
       else {
@@ -179,6 +182,33 @@ getOneProduct: (req, res) => {
   res.send(result)
 })
 },
+
+getOTP: (req, res) => {
+  const id =req.body.id
+  console.log("ID:",id)
+  model.getOTP(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+confirmation: (req, res) => {
+  var id = req.body.userId
+  const data = req.body.password
+  model.confirmation(data,id, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
 
 editProduct: (req, res) => {
   const id = req.params.id

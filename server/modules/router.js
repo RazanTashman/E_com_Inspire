@@ -31,6 +31,10 @@ router.get("/categories", controller.getCategories);
 
 router.get("/usertype/:id", controller.getUserType);
 
+router.post("/pwdverification", controller.getOTP);
+
+router.post("/confirmation", controller.confirmation);
+
 
 // http://localhost:5000/shop?shop=s&id=74
 

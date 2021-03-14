@@ -80,10 +80,10 @@ class addProduct extends React.Component {
         return (
             <div>
                 {this.state.formType ?
-                    <form action="/items" style={{ marginTop: "5%", marginLeft: "25%", width: "40%" }} className="FORM">
+                    <form action="/items" style={{ marginTop: "8%", marginLeft: "30%", width: "40%" }} className="FORM">
 
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Item Name" name="productName" required="required" onChange={(e) => this.getTheInfo(e)} />
+                            <input  style={{ height: "35px"}} type="text" className="form-control" placeholder="Item Name" name="productName" required="required" onChange={(e) => this.getTheInfo(e)} />
                             <div style={{ fontSize: 12, color: "red" }}>
                                 {this.state.productNameEr}
                             </div>
@@ -92,7 +92,7 @@ class addProduct extends React.Component {
                         <br />
 
                         <div className="form-group">
-                            <input type="number" className="form-control" placeholder="Item Price" name="price" required="required" onChange={(e) => this.getTheInfo(e)} />
+                            <input style={{ height: "35px"}} type="number" className="form-control" placeholder="Item Price" name="price" required="required" onChange={(e) => this.getTheInfo(e)} />
                             <div style={{ fontSize: 12, color: "red" }}>
                                 {this.state.productPriceEr}
                             </div>
@@ -101,11 +101,11 @@ class addProduct extends React.Component {
                         <br />
 
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Description" name="description" required="required" onChange={(e) => this.getTheInfo(e)} />
+                            <input style={{ height: "35px"}} type="text" className="form-control" placeholder="Description" name="description" required="required" onChange={(e) => this.getTheInfo(e)} />
                         </div>
                         <br />
 
-                        <select name="categories" id="inputState" className="form-control" required="required"
+                        <select  style={{ height: "35px"}}  name="categories" id="inputState" className="form-control" required="required"
                             onChange={(e) => this.getTheInfo(e)}  >
                             <option name="" disabled>Choose option</option>
                             <option value="electronics" >Electronics</option>
@@ -119,14 +119,15 @@ class addProduct extends React.Component {
                         <br />
 
                         <div className="custom-file">
-                            <input type="file" className="custom-file-input" id="customFile" required="required" name="image" onChange={(e) => this.getTheInfo(e)} key={Math.random().toString(36) || ''} />
+                            <input style={{ height: "50px"}} type="file" className="custom-file-input" id="customFile" required="required" name="image" onChange={(e) => this.getTheInfo(e)} />
+                           {/*  key={Math.random().toString(36) || ''} */}
                             <label className="custom-file-label" for="customFile">Pick Image</label>
                         </div>
 
                         <br /><br />
                         <div>
                             {/* {this.renderRedirect()} */}
-                            <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg text-white "> Add</button>
+                            <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg  "> Add</button>
                         </div>
                     </form>
                     :

@@ -1,27 +1,81 @@
 const con = require('../db/db')
+var nodemailer = require('nodemailer');
 
 module.exports = {
-  registration: async (user, shop, callback) => {
+  registration: async (user ,shop, otp, callback) => {
+    var output ={}
+
     var myQuery = await `SELECT userId FROM users WHERE email = '${user[0]}' `
     con.query(myQuery, (error, result) => {
-      callback(error, result)
       console.log("result", result)
+      if(result.length !== 0 ){
+        output.userId = result[0].userId
+        console.log("result.userId::",result[0].userId)
+        callback(error, output)
+        // output.userId = 0
+      }
+      
+      
+     
       if (result.length === 0 && user[0] !== "") {
+       
         var myQuery2 = "INSERT INTO users (email, password,type) VALUES (?,?,?) "
-
+        
         con.query(myQuery2, user, async (error, result2) => {
-          console.log("not exist11", result2)
+          console.log("result2", result2.insertId)
+          output.insertId = result2.insertId
+          console.log("outputIns::",output)
+          callback(error, output)
+          // output.insertId = 0
+         
+          
           // shopId, shopeName, address, userId
           var myQuery3 = await `INSERT INTO shops (shopeName, phoneNo, address, userId) VALUES (?,?,?,${result2.insertId}) `
           con.query(myQuery3, shop, (error, result3) => {
             console.log("not exist22222")
+            console.log("output::",output)
+      
           })
         })
+
+
+        process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'carsooqjo@gmail.com',
+        pass: 'Adam123456@'
       }
+    });
+    
+    var mailOptions = {
+      from: 'dawerhajo@gmail.com',
+      to: user[0],
+      subject: 'InspireSooq OTP ',
+      text: `To verify your email address, please use the following One Time Password (OTP):  ${otp } Thank you for shopping with us.`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+      }
+   
+      
+      
 
 
     })
+  
+    
+
   },
+
+  
   signIn: async (user, callback) => {
     var myQuery = await `SELECT userId,type FROM users WHERE email = '${user[0]}' AND password = '${user[1]}' `
     con.query(myQuery, (error, result) => {
@@ -106,9 +160,9 @@ module.exports = {
     var myQuery = `SELECT image, productId FROM products  INNER JOIN shops ON  products.shopId = shops.shopId WHERE userId = ${id} ORDER BY productId DESC`
     con.query(myQuery, async (error, result) => {
       console.log("image:::", result)
-    //  for(var i = 0; i < result.length; i++){
+     for(var i = 0; i < result.length; i++){
       callback(error, result)
-    //  }
+     }
      
     })
   
@@ -161,6 +215,23 @@ module.exports = {
       callback(error, result)
     })
   },
+
+  getOTP: async (id,callback) => {
+    var myQuery = await ` SELECT password FROM users WHERE userId = ${id}`
+    con.query(myQuery, (error, result) => {
+      callback(error, result)
+    })
+  },
+
+
+  confirmation:async (data, id, callback) => {
+    var myQuery = await ` UPDATE  users SET password = ${data}  WHERE userId = ${id}`
+    con.query(myQuery, data, (error, result) => {
+      callback(error, result)
+    })
+  },
+
+  
   editProduct: async (data, id, callback) => {
     var myQuery = await ` UPDATE  products SET productName = ?, price = ?, categories = ?, description = ?, image = ? WHERE productId = ${id}`
     con.query(myQuery, data, (error, result) => {
@@ -196,3 +267,6 @@ module.exports = {
 
 
 }
+
+
+

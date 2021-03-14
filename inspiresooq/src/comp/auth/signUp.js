@@ -11,9 +11,9 @@ class signUp extends React.Component {
       phoneNo: "",
       address: "",
       email: "",
-      password: "",
+      // password: "",
       emailShop: "",
-      passwordShop: "",
+      // passwordShop: "",
       formType: true,
 
       fNameError: "",
@@ -22,9 +22,9 @@ class signUp extends React.Component {
       phoneNoError: "",
       addressError: "",
       emailError: "",
-      passwordError: "",
+      // passwordError: "",
       emailErrorShop: "",
-      passwordErrorShop: "",
+      // passwordErrorShop: "",
 
       redirect: false,
     }
@@ -40,18 +40,18 @@ class signUp extends React.Component {
       this.state.addressError = "Address Number Is Required"
     if (this.state.emailShop === "")
       this.state.emailErrorShop = "Email Is Required"
-    if (this.state.passwordShop === "")
-      this.state.passwordErrorShop = "Password Is Required"
+    // if (this.state.passwordShop === "")
+    //   this.state.passwordErrorShop = "Password Is Required"
     if (!this.state.emailShop.includes("@") && this.state.emailShop !== "")
       this.state.emailErrorShop = "invalid email"
-    if (this.state.passwordShop.length < 8 && this.state.passwordShop !== "")
-      this.state.passwordErrorShop = "Password must be longer than 8 characters"
-    if (this.state.shopNameError || this.state.phoneNoError || this.state.addressError || this.state.emailErrorShop || this.state.passwordErrorShop)
-      this.setState({ shopNameError: this.state.shopNameError, phoneNoError: this.state.phoneNoError, addressError: this.state.addressError, emailErrorShop: this.state.emailErrorShop, passwordErrorShop: this.state.passwordErrorShop })
+    // if (this.state.passwordShop.length < 8 && this.state.passwordShop !== "")
+    //   this.state.passwordErrorShop = "Password must be longer than 8 characters"
+    if (this.state.shopNameError || this.state.phoneNoError || this.state.addressError || this.state.emailErrorShop) //|| this.state.passwordErrorShop
+      this.setState({ shopNameError: this.state.shopNameError, phoneNoError: this.state.phoneNoError, addressError: this.state.addressError, emailErrorShop: this.state.emailErrorShop }) //, passwordErrorShop: this.state.passwordErrorShop 
     else {
       e.preventDefault();
-      this.signUp("shop", this.state.emailShop, this.state.passwordShop)
-    
+      this.signUp("shop", this.state.emailShop) //, this.state.passwordShop
+
     }
 
   }
@@ -65,29 +65,29 @@ class signUp extends React.Component {
       this.state.lNameError = "Last Name Is Required"
     if (this.state.email === "")
       this.state.emailError = "Email Is Required"
-    if (this.state.password === "")
-      this.state.passwordError = "Password Is Required"
+    // if (this.state.password === "")
+    //   this.state.passwordError = "Password Is Required"
     if (!this.state.email.includes("@") && this.state.email !== "")
       this.state.emailError = "invalid email"
-    if (this.state.password.length < 8 && this.state.password !== "")
-      this.state.passwordError = "Password must be longer than 8 characters"
-    if (this.state.fNameError || this.state.lNameError || this.state.emailError || this.state.passwordError)
-      this.setState({ fNameError: this.state.fNameError, lNameError: this.state.lNameError, emailError: this.state.emailError, passwordError: this.state.passwordError })
+    // if (this.state.password.length < 8 && this.state.password !== "")
+    //   this.state.passwordError = "Password must be longer than 8 characters"
+    if (this.state.fNameError || this.state.lNameError || this.state.emailError) // || this.state.passwordError
+      this.setState({ fNameError: this.state.fNameError, lNameError: this.state.lNameError, emailError: this.state.emailError }) //, passwordError: this.state.passwordError
     else {
       e.preventDefault();
-      this.signUp("user", this.state.email, this.state.password)
+      this.signUp("user", this.state.email) //, this.state.password
     }
   }
 
 
-  signUp(type, email, password) {
+  signUp(type, email) { //, password
     let data = {
       shopName: this.state.shopName,
       phoneNo: this.state.phoneNo,
       address: this.state.address,
       fName: this.state.fName,
       lName: this.state.lName,
-      password: password,
+      // password: password,
       email: email,
       type: type,
     }
@@ -98,38 +98,39 @@ class signUp extends React.Component {
       data: JSON.stringify(data),
       contentType: "application/json",
       success: function (data) {
+        console.log("dataaaa::::", data)
+        if (data.userId)
+          that.setState({ emailError: "Email already in use ", emailErrorShop: "Email already in use " })
+        else {
+          localStorage.setItem('id', data.insertId)
+            that.setState({
+              redirect: true
+            })
+          }
 
-        if (data.length !== 0)
-          that.setState({ emailError: "Email already in use " })
-        else
-          that.setState({
-            redirect: true
-          })
-
-
-      },
-      error: function (err) {
-        console.log("err", err)
-        that.setState({ emailError: err.responseText })
-      }
-    })
+        },
+        error: function (err) {
+          console.log("err", err)
+          that.setState({ emailError: err.responseText })
+        }
+      })
 
   }
   getTheInfo(event) {
     this.setState({ [event.target.name]: event.target.value })
-    console.log(event.target.name, this.state.email)
+    console.log(event.target.name, event.target.value)
     if (event.target.name === "fName")
       this.state.fNameError = ""
     if (event.target.name === "lName")
       this.state.lNameError = ""
     if (event.target.name === "email")
       this.state.emailError = ""
-    if (event.target.name === "password")
-      this.state.passwordError = ""
+    // if (event.target.name === "password")
+    //   this.state.passwordError = ""
     if (event.target.name === "emailShop")
       this.state.emailErrorShop = ""
-    if (event.target.name === "passwordShop")
-      this.state.passwordErrorShop = ""
+    // if (event.target.name === "passwordShop")
+    //   this.state.passwordErrorShop = ""
     if (event.target.name === "shopName")
       this.state.shopNameError = ""
     if (event.target.name === "phoneNo")
@@ -141,7 +142,7 @@ class signUp extends React.Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/login' />
+      return <Redirect to='/pwdverification' />
     }
   }
   render() {
@@ -196,7 +197,7 @@ class signUp extends React.Component {
                     {this.renderRedirect()}
                     <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validation(e)}>Sign Up</button>
                   </div>
-                  <a href ='/login'> Already have an account? sign in</a>
+                  <a href='/login'> Already have an account? sign in</a>
                 </form>
 
 
@@ -230,7 +231,7 @@ class signUp extends React.Component {
                       {this.state.addressError}
                     </div>
                   </div>
-{/* 
+                  {/* 
                   <div className="form-group">
                     <input type="password" className="form-control" placeholder="Password" name="passwordShop" required="required" onChange={(e) => this.getTheInfo(e)} />
                     <div style={{ fontSize: 12, color: "red" }}>
@@ -243,7 +244,7 @@ class signUp extends React.Component {
                     {this.renderRedirect()}
                     <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validationShops(e)}>Sign Up</button>
                   </div>
-                  <a href ='/login'> Already have an account? sign in</a>
+                  <a href='/login'> Already have an account? sign in</a>
                 </form>
               }
             </div>

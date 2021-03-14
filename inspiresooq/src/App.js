@@ -5,6 +5,7 @@ import SignUp from './comp/auth/signUp';
 import User from './comp/users/user';     
 import Product from './comp/users/product'
 import Store from "./comp/users/store"
+import OTP from "./comp/auth/otp"
 import './App.css';
 
 import { BrowserRouter, Switch, Route} from "react-router-dom";
@@ -19,7 +20,8 @@ function App() {
             <Route path= '/home' component = {Home}></Route>
             <Route path= '/user' component = {User}></Route>
             <Route path= '/product/:id' component = {Product}></Route>
-            <Route path= '/store/:id' component = {Store}></Route>           
+            <Route path= '/store/:id' component = {Store}></Route>   
+            <Route path= '/pwdverification' component = {OTP}></Route>          
         </Switch>
       </BrowserRouter>
     </div>

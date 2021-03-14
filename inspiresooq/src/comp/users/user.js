@@ -109,7 +109,7 @@ class User extends React.Component {
                                 <h1>{product.productName}</h1>
                                 <p class="price">{product.price}</p>
                                 <p>{product.description}</p>
-                                <p><button>Add to Cart</button></p>
+                                <p><button type="button"  style={{  backgroundColor: "#afacec" , color: "white"  }} >Add to Cart</button></p>
                                 </div>
                         </div>
                         )

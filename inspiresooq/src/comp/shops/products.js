@@ -2,6 +2,8 @@ import React from "react"
 import $ from "jquery"
 import EditProduct from "./editProduct"
 import axios from 'axios';
+import Edit from '../../images/edit.png'
+import Delete from '../../images/delete.png'
 class Products extends React.Component {
   constructor(props) {
     super(props)
@@ -85,8 +87,8 @@ class Products extends React.Component {
         {/* {if(this.state.rendering === 1 ) */}
 
         {this.state.rendering === 2 ?
-          <table className="table" style={{ marginTop: "8%", width: "90%", marginLeft: "5%" }}>
-            <thead style={{ background: "#304f30", color: "white" }}>
+          <table className="table" style={{ marginTop: "10%", width: "90%", marginLeft: "5%" }}>
+            <thead style={{ background: "#rgb(241, 241, 241)", color: "#817ce9" }}>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Item</th>
@@ -103,7 +105,7 @@ class Products extends React.Component {
               {this.state.products.map((product) => {
                 return (
                   <tr key={Math.random().toString(36) || ''}>
-                    <th scope="row">{this.count++}</th>
+                    <th style={{ color: "#817ce9" }}scope="row">{this.count++}</th>
                     <td>{product.productName}</td>
                     <td>{product.price}</td>
                     <td>{product.description}</td>
@@ -111,12 +113,15 @@ class Products extends React.Component {
                    {console.log("Image:::", product.image.data)}
                     {/* <td>{product.price}</td> */}
                     {/* ["image/png", "image/jpeg", "image/gif"] */}
-                    <td>  <img style={{width:"8%" }} src = { URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )} /> </td>
+                    {console.log( "Uint8Array::",URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) ))}
+                    <td>  <img style={{width:"13%" }} src = { URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )} /> </td>
 
                     {/* data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" */}
                     <td>
-                      <button style={{ width: "30%", height: "10%", margin: "5%" }} className={product.productId} className=" butt btn-lg text-white " onClick={() => { this.edit(product.productId) }}>Edit</button>
-                      <button style={{ width: "30%", height: "10%" }} className={product.productId} className=" butt btn-lg text-white" onClick={() => { this.delete(product.productId) }}>Delete</button>
+                      <img src= {Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "7%",  margin: "3%" }}className={product.productId} onClick={() => { this.edit(product.productId) }} />
+                      <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "7%", margin: "3%" }} className={product.productId} onClick={() => { this.delete(product.productId) }} />
+                      {/* <button style={{ width: "30%", height: "10%", margin: "5%" }} className={product.productId} className=" butt btn-lg text-white " onClick={() => { this.edit(product.productId) }}>Edit</button> */}
+                      {/* <button style={{ width: "30%", height: "10%" }} className={product.productId} className=" butt btn-lg text-white" onClick={() => { this.delete(product.productId) }}>Delete</button> */}
                     </td>
                   </tr>
                 )

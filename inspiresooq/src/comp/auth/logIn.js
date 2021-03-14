@@ -94,7 +94,7 @@ class login extends React.Component {
           <br />
 
           <div class="form-group">
-            <button type="button" style={{ fontWeight: 'bold', fontSize: "22px", width: "500px" }} className="butt btn-lg text-white " onClick={() => this.submit()}>Log In</button>
+            <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt btn-lg text-white " onClick={() => this.submit()}>Log In</button>
           </div>
             <a href ='/signup'> Don't have an account? Sign Up</a>
         </form>

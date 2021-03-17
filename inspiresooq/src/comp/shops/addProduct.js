@@ -51,6 +51,7 @@ class addProduct extends React.Component {
                                 // const byteArray = new Uint8Array(buf);
                                 // const blob = new Blob([byteArray], {type: "image/png"});
                                 // var url =URL.createObjectURL(blob);
+                                console.log("Blob",new Uint8Array(buf))
                                 var url = URL.createObjectURL(new Blob( [  new Uint8Array(buf) ], {type: "image/png"}) )
                              console.log("url:::",url)
                              that.setState({url: url})
@@ -160,7 +161,7 @@ class addProduct extends React.Component {
                         
                         {/* <img style={{width:"13%" }} src = { URL.createObjectURL(new Blob( [  new Uint8Array(this.state.buf) ], {type: "image"}) )} />  */}
                         {/* <img style={{width:"13%", marginTop:"2%" }} src = { this.state.url} />  */}
-                        { console.log("canvasss::::",document.getElementById('canvas').toDataURL(' image/jpeg '))}
+                        {/* { console.log("canvasss::::",document.getElementById('canvas').toDataURL(' image/jpeg '))} */}
                         <canvas style={{ marginTop:"2%" ,height:"80px" }} id ="canvas"></canvas>
                         <br /><br />
                         <div>

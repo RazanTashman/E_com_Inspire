@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import $ from "jquery"
+import cart from "../../images/cart.png"
 // import logo from "./logo.jpg"
 function Nav() {
 
@@ -52,7 +53,7 @@ function Nav() {
 
  	{/* <Link to="/user" className="navbar-brand text-white" > <b>Home </b> <span className="sr-only"></span></Link> */}
 
-      <li style={{marginLeft:"8px",marginTop:"-0.3%",fontWeight: 'bold', fontSize:"15px"}} className=" dropdown "><a className="dropdown-toggle text-white" data-toggle="dropdown" href="/home"> Swich account to</a>
+      <li style={{marginTop:"-0.3%",fontWeight: 'bold', fontSize:"15px"}} className=" dropdown "><a className="dropdown-toggle text-white" data-toggle="dropdown" href="/home"> Swich account to</a>
         <ul className="dropdown-menu">
           <li><a href="/user">User</a></li>
           <li><a href="/home">Shop</a></li>
@@ -60,7 +61,11 @@ function Nav() {
       </li>
     </div>
 }
-    <a  style={{color:"white", marginLeft:"900px", marginTop:"1%", fontWeight: 'bold', fontSize:"15px"}} className="active navbar-brand" href="/login"  onClick={() => { localStorage.removeItem('id') }}>Sign Out</a>
+<a  className="active navbar-brand" href="/cart" >
+  <img  style={{ width:"5%"}} src= {cart} />
+</a>
+{/* style={{color:"white", marginLeft:"300px", marginTop:"1%", fontWeight: 'bold', fontSize:"15px"}} */}
+    <a  style={{color:"white", marginRight:"1%",  fontWeight: 'bold', fontSize:"15px"}} className="active navbar-brand" href="/login"  onClick={() => { localStorage.removeItem('id') }}>Sign Out</a>
   </div>
 </nav>
     </div>

@@ -11,11 +11,30 @@ class User extends React.Component {
         this.state = {
             categories:[],
             products:[],
+            cart:[]
         }
     }
 
     componentDidMount(){
         let that = this
+
+        $.ajax({
+            method: 'GET',
+            url: `http://localhost:5000/cart/${localStorage.getItem("id")}`,
+            contentType: "application/json",
+            success: function (data) {
+             data.map(singleCart =>  that.state.cart.push(singleCart.productId ) )
+            
+                that.setState({ cart: that.state.cart })
+                // console.log("cart::",data.map(singleCart => that.state.cart.push(singleCart.productId ) ))
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+            }
+        })
+
+      
         $.ajax({
           method: 'GET',
           url: `http://localhost:5000/categories`,
@@ -47,6 +66,8 @@ class User extends React.Component {
               that.setState({ emailError: err.responseText })
             }
           })
+
+    
     }
 
     filtration(catId){
@@ -69,6 +90,10 @@ class User extends React.Component {
     }
 
     cart(id,index){
+        var but = document.getElementById(index)
+        console.log("but",but)
+        but.style.color = "gray"
+        but.style.cursor ="auto"
         var data ={
             userId: localStorage.getItem("id"),
             productId: id,
@@ -82,8 +107,7 @@ class User extends React.Component {
             contentType: "application/json",
             success: function (data) {
                 console.log("dataaaa:", data)
-                that.setState({ products: data })
-                that.setState({ formType: false })
+               
             },
             error: function (err) {
                 console.log("err", err)
@@ -126,15 +150,23 @@ class User extends React.Component {
 
                     <div className="row" style ={{marginTop:"10%"}}>
                         {this.state.products.map((product,index) => {
-                             {console.log("product",product)}
+                            //  {console.log("product",product)}
                         return (
                             <div className="col-sm-3" >
-                            <div class="card categories" style={{ marginBottom: "4%"}} onClick={() => this.getProduct(product.productId)}>
-                                <img src={URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )}  alt="Denim Jeans" style={{width:"100%"}}/>
+                            <div className="card categories" style={{ marginBottom: "4%"}} >
+                               <div className="categories" onClick={() => this.getProduct(product.productId)}>
+                               <img src={URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )}  alt="Denim Jeans" style={{width:"100%"}}/>
                                 <h1>{product.productName}</h1>
-                                <p class="price">{product.price}</p>
+                                <p className="price">{product.price}</p>
                                 <p>{product.description}</p>
-                                <p><button type="button"  style={{marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)" , color: "#645deb"  }} onClick ={() => this.cart(product.productId,index)} >Add to Cart</button></p>
+                                </div>
+                              {    console.log( "listed",this.state.cart)}
+                                {!(this.state.cart.includes(product.productId)) ?
+                                <p><button type="button" id={index} style={{marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)" , color: "#645deb"  }} onClick ={() => this.cart(product.productId,index)} >Add to Cart</button></p>
+                              :
+                              <p><button  type="button" disabled style={{marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)" , color: "gray",cursor: "auto"  }}  >Add to Cart</button></p>
+
+                                }
                                 </div>
                         </div>
                         )

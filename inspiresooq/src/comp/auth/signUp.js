@@ -195,7 +195,7 @@ class signUp extends React.Component {
 
                   <div className="form-group">
                     {this.renderRedirect()}
-                    <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validation(e)}>Sign Up</button>
+                    <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg  " onClick={(e) => this.validation(e)}>Sign Up</button>
                   </div>
                   <a href='/login'> Already have an account? sign in</a>
                 </form>
@@ -242,7 +242,7 @@ class signUp extends React.Component {
 
                   <div className="form-group">
                     {this.renderRedirect()}
-                    <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validationShops(e)}>Sign Up</button>
+                    <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg  " onClick={(e) => this.validationShops(e)}>Sign Up</button>
                   </div>
                   <a href='/login'> Already have an account? sign in</a>
                 </form>

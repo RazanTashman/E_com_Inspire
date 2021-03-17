@@ -8,6 +8,7 @@ function Nav() {
   const mystyle = {
       background: "#afacec",
       // position: 'fixed',
+      height:'10%',
       width: '100%',
 
   };
@@ -42,21 +43,24 @@ function Nav() {
 {/* <nav  className="navbar navbar-inverse  "> */}
   <div className="container-fluid">
     <div className="navbar-header">
-      <a style={{ marginLeft:"0px" , color:"white", fontSize:"15px"}} className="active navbar-brand" href="/home">Home <span className="sr-only"></span></a>
+      <a style={{ marginLeft:"0px" , marginTop:"18%", fontWeight: 'bold', color:"white", fontSize:"15px"}} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
     </div>
+
+    {role === "shop" && 
     <div className="nav navbar-nav">
       {/* <li className="active"><a href="#">Home</a></li> */}
 
  	{/* <Link to="/user" className="navbar-brand text-white" > <b>Home </b> <span className="sr-only"></span></Link> */}
 
-      <li style={{marginLeft:"900px",fontWeight: 'bold', fontSize:"15px"}} className="dropdown navbar-brand"><a className="dropdown-toggle" data-toggle="dropdown" href="/home"> Swich account to</a>
+      <li style={{marginLeft:"8px",marginTop:"-0.3%",fontWeight: 'bold', fontSize:"15px"}} className=" dropdown "><a className="dropdown-toggle text-white" data-toggle="dropdown" href="/home"> Swich account to</a>
         <ul className="dropdown-menu">
           <li><a href="/user">User</a></li>
           <li><a href="/home">Shop</a></li>
         </ul>
       </li>
     </div>
-    <a  style={{color:"white", marginLeft:"8px",fontWeight: 'bold', fontSize:"15px"}} className="active navbar-brand" href="/home">Sign Out</a>
+}
+    <a  style={{color:"white", marginLeft:"900px", marginTop:"1%", fontWeight: 'bold', fontSize:"15px"}} className="active navbar-brand" href="/login"  onClick={() => { localStorage.removeItem('id') }}>Sign Out</a>
   </div>
 </nav>
     </div>

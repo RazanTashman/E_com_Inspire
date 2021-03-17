@@ -53,12 +53,12 @@ render(){
                              {console.log("product",product)}
                         return (
                             <div className="col-sm-3" >
-                            <div class="card categories" onClick={() => this.getProduct(product.productId)}>
+                            <div class="card categories" style={{ marginBottom: "4%"}} onClick={() => this.getProduct(product.productId)}>
                                 <img src={Product}  alt="Denim Jeans" style={{width:"100%"}}/>
                                 <h1>{product.productName}</h1>
                                 <p class="price">{product.price}</p>
                                 <p>{product.description}</p>
-                                <p><button>Add to Cart</button></p>
+                                <p><button style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)" , color: "#645deb"  }}>Add to Cart</button></p>
                                 </div>
                         </div>
                         )

@@ -33,7 +33,7 @@ class Product extends React.Component {
                     price: data[0].price,
                     description: data[0].description,
                     categories: data[0].categories,
-                    image: null,
+                    image: data[0].image.data,
                     shopeName: data[0].shopeName,
                     shopId: data[0].shopId
                 })
@@ -50,6 +50,31 @@ class Product extends React.Component {
           return <Redirect to={`/store/${this.state.shopId}`} />
         }
       }
+
+    cart(){
+        var data ={
+            userId: localStorage.getItem("id"),
+            productId: localStorage.getItem("productId"),
+            price: this.state.price
+        }
+        var that = this
+        $.ajax({
+            method: 'POST',
+            data: JSON.stringify(data),
+            url: `http://localhost:5000/cart`,
+            contentType: "application/json",
+            success: function (data) {
+                console.log("dataaaa:", data)
+                that.setState({ products: data })
+                that.setState({ formType: false })
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+            }
+        })
+      }
+      
     store(){
         this.setState({
             redirect: true
@@ -61,13 +86,13 @@ class Product extends React.Component {
             color: "#5c7f3f",
             marginTop: "20%"
         }
-
+       
        const buttons={
             border: "none",
             outline: "0",
             padding: "12px",
             color:" white",
-            background: "#000",
+            background: "#afacec",
             marginLeft: "2px",
             marginTop: "15%",
             // text-align: "center",
@@ -84,7 +109,7 @@ class Product extends React.Component {
                         <div className="col-sm-6" >
                             <div style={{ float: "right", marginTop: "20%" }}>
                                 {/* <div className="card" style={{ width: "50%" }}  style={{ marginTop: "15%" }}> */}
-                                <img src={ProductImg} style={{ marginTop: "20%", width: "300px", height: "300px" }} alt="Card image cap" />
+                                <img src= { URL.createObjectURL(new Blob( [  new Uint8Array(this.state.image) ], {type: "image"}) )}style={{ marginTop: "20%", width: "50%" }} alt="Card image cap" />
                                 <h6 style={{ color: "gray", fontSize: "22px" }}> <b style={{ color: "rgb(92, 91, 91)" }} ></b>{this.state.description}</h6>
                             </div>
                         </div >
@@ -96,7 +121,7 @@ class Product extends React.Component {
                                 <br />
                                 <h2 style={{ color: "gray", fontSize: "22px" }}> <b style={{ color: "rgb(92, 91, 91)" }} ></b>{this.state.price} $</h2>
                                <div>
-                                <button style ={buttons}>Add To Cart</button>
+                                <button style ={buttons} onClick={() => this.cart()}>Add To Cart</button>
                                 {this.renderRedirect()}
                                 <button style ={buttons} onClick = { () => this.store()}>Visit Store</button>
                                 </div>

@@ -68,6 +68,31 @@ class User extends React.Component {
           })
     }
 
+    cart(id,index){
+        var data ={
+            userId: localStorage.getItem("id"),
+            productId: id,
+            price: this.state.products[index].price
+        }
+        var that = this
+        $.ajax({
+            method: 'POST',
+            data: JSON.stringify(data),
+            url: `http://localhost:5000/cart`,
+            contentType: "application/json",
+            success: function (data) {
+                console.log("dataaaa:", data)
+                that.setState({ products: data })
+                that.setState({ formType: false })
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+            }
+        })
+      }
+
+
     getProduct(id){
         localStorage.setItem("productId",id)
         window.location = ` /product/${id}`
@@ -87,7 +112,7 @@ class User extends React.Component {
                             <div className="col-sm-4" >
                             <div className="card categories"    style ={{marginTop:"24%"}}onClick={() => this.filtration(category.category)} >
                                 <img className="card-img-top" style ={{opacity: "0.8"}}src = {Category}alt="Card image cap" />
-                                <div className="card-body" style ={{marginTop:"-40%", color:"white", fontWeight: "bold",  zIndex:"1", background :"black", padding:"3px"}}>
+                                <div className="card-body" style ={{marginTop:"-40%", color: "black", fontWeight: "bold", opacity: 0.8, background: "#d7d7d7", padding: "3px"}}>
                                     <h1 className="card-text" >{category.category}</h1>
                                 </div>
                             </div>
@@ -100,16 +125,16 @@ class User extends React.Component {
                         <br/> <br/>
 
                     <div className="row" style ={{marginTop:"10%"}}>
-                        {this.state.products.map((product) => {
+                        {this.state.products.map((product,index) => {
                              {console.log("product",product)}
                         return (
                             <div className="col-sm-3" >
-                            <div class="card categories" onClick={() => this.getProduct(product.productId)}>
-                                <img src={Product}  alt="Denim Jeans" style={{width:"100%"}}/>
+                            <div class="card categories" style={{ marginBottom: "4%"}} onClick={() => this.getProduct(product.productId)}>
+                                <img src={URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )}  alt="Denim Jeans" style={{width:"100%"}}/>
                                 <h1>{product.productName}</h1>
                                 <p class="price">{product.price}</p>
                                 <p>{product.description}</p>
-                                <p><button type="button"  style={{  backgroundColor: "#afacec" , color: "white"  }} >Add to Cart</button></p>
+                                <p><button type="button"  style={{marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)" , color: "#645deb"  }} onClick ={() => this.cart(product.productId,index)} >Add to Cart</button></p>
                                 </div>
                         </div>
                         )

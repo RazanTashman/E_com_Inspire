@@ -87,7 +87,7 @@ class Products extends React.Component {
         {/* {if(this.state.rendering === 1 ) */}
 
         {this.state.rendering === 2 ?
-          <table className="table" style={{ marginTop: "10%", width: "90%", marginLeft: "5%" }}>
+          <table className="table" style={{ marginTop: "10%", width: "90%", marginLeft: "3%" }}>
             <thead style={{ background: "#rgb(241, 241, 241)", color: "#817ce9" }}>
               <tr>
                 <th scope="col">#</th>
@@ -118,8 +118,8 @@ class Products extends React.Component {
 
                     {/* data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" */}
                     <td>
-                      <img src= {Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "7%",  margin: "3%" }}className={product.productId} onClick={() => { this.edit(product.productId) }} />
-                      <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "7%", margin: "3%" }} className={product.productId} onClick={() => { this.delete(product.productId) }} />
+                      <img src= {Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "5%", margin: "1%" }}className={product.productId} onClick={() => { this.edit(product.productId) }} />
+                      <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "5%", margin: "1%" }} className={product.productId} onClick={() => { this.delete(product.productId) }} />
                       {/* <button style={{ width: "30%", height: "10%", margin: "5%" }} className={product.productId} className=" butt btn-lg text-white " onClick={() => { this.edit(product.productId) }}>Edit</button> */}
                       {/* <button style={{ width: "30%", height: "10%" }} className={product.productId} className=" butt btn-lg text-white" onClick={() => { this.delete(product.productId) }}>Delete</button> */}
                     </td>

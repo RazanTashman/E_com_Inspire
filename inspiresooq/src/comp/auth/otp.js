@@ -141,7 +141,7 @@ class OTP extends React.Component {
 
                     <div className="form-group">
                         {this.renderRedirect()}
-                        <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg text-white " onClick={(e) => this.validation(e)}>Confirm</button>
+                        <button type="button" style={{ fontWeight: 'bold', fontSize: "22px" }} className="butt   btn-lg  " onClick={(e) => this.validation(e)}>Confirm</button>
                     </div>
                     <a href='/login'> </a>
                 </form>

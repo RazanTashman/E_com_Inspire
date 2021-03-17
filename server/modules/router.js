@@ -13,7 +13,9 @@ router.get("/user/products/:catId", controller.getCatProduct);
 
 router.get("/shop/products/:id", controller.getShopProduct);
 
-router.get("/shop/products/image/:id", controller.getShopImage);
+router.get("/shop/products/image/:id", controller.getImage);
+
+router.post("/shop/products/image/", controller.uploadImage);
 
 router.get("/store/:id", controller.getStore);
 
@@ -34,6 +36,14 @@ router.get("/usertype/:id", controller.getUserType);
 router.post("/pwdverification", controller.getOTP);
 
 router.post("/confirmation", controller.confirmation);
+
+router.post("/cart", controller.addToCart);
+
+router.get("/cart/:id", controller.getCart);
+
+router.delete("/cart/:id/:user", controller.deleteCart);
+
+router.post("/qty", controller.cahngOnQty);
 
 
 // http://localhost:5000/shop?shop=s&id=74

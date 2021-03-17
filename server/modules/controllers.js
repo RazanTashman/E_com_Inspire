@@ -98,7 +98,7 @@ console.log("buf::",buf);
   })
 },
 
-getShopImage: (req, res) => {
+getImage: (req, res) => {
   const id = req.params.id
   model.getShopImage(id,(error, result) => {
   if (error)
@@ -109,6 +109,20 @@ getShopImage: (req, res) => {
   res.send(result)
 })
 },
+
+
+uploadImage: (req, res) => {
+  const id = req.params.id
+  model.uploadImage(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
 
 getStore: (req, res) => {
   const id = req.params.id
@@ -200,6 +214,67 @@ confirmation: (req, res) => {
   var id = req.body.userId
   const data = req.body.password
   model.confirmation(data,id, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
+
+addToCart: (req, res) => {
+  var data = [req.body.userId, req.body.productId]
+  model.addToCart(data, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
+getCart: (req, res) => {
+  var id = req.params.id
+  console.log("I'm Hereee", id)
+  model.getCart(id, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
+deleteCart: (req, res) => {
+  const id = req.params.id
+  const user = req.params.user
+  console.log("id:::", id)
+  console.log("id:::", user)
+  model.deleteCart(id,user,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+
+cahngOnQty: (req, res) => {
+  var data ={
+    userId : req.body.userId,
+    cartId : req.body.cartId,
+    qty :[ req.body.qty[0],req.body.qty[1]]
+   
+  }
+
+  console.log("I'm Hereee",data )
+  model.cahngOnQty(data,(error, result) => {
     if (error)
       console.log("error from controller", error)
     else {

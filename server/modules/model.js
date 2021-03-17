@@ -2,80 +2,80 @@ const con = require('../db/db')
 var nodemailer = require('nodemailer');
 
 module.exports = {
-  registration: async (user ,shop, otp, callback) => {
-    var output ={}
+  registration: async (user, shop, otp, callback) => {
+    var output = {}
 
     var myQuery = await `SELECT userId FROM users WHERE email = '${user[0]}' `
     con.query(myQuery, (error, result) => {
       console.log("result", result)
-      if(result.length !== 0 ){
+      if (result.length !== 0) {
         output.userId = result[0].userId
-        console.log("result.userId::",result[0].userId)
+        console.log("result.userId::", result[0].userId)
         callback(error, output)
         // output.userId = 0
       }
-      
-      
-     
+
+
+
       if (result.length === 0 && user[0] !== "") {
-       
+
         var myQuery2 = "INSERT INTO users (email, password,type) VALUES (?,?,?) "
-        
+
         con.query(myQuery2, user, async (error, result2) => {
           console.log("result2", result2.insertId)
           output.insertId = result2.insertId
-          console.log("outputIns::",output)
+          console.log("outputIns::", output)
           callback(error, output)
           // output.insertId = 0
-         
-          
+
+
           // shopId, shopeName, address, userId
           var myQuery3 = await `INSERT INTO shops (shopeName, phoneNo, address, userId) VALUES (?,?,?,${result2.insertId}) `
           con.query(myQuery3, shop, (error, result3) => {
             console.log("not exist22222")
-            console.log("output::",output)
-      
+            console.log("output::", output)
+
           })
         })
 
 
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'carsooqjo@gmail.com',
-        pass: 'Adam123456@'
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'carsooqjo@gmail.com',
+            pass: 'Adam123456@'
+          }
+        });
+
+        var mailOptions = {
+          from: 'dawerhajo@gmail.com',
+          to: user[0],
+          subject: 'InspireSooq OTP ',
+          text: `To verify your email address, please use the following One Time Password (OTP):  ${otp} Thank you for shopping with us.`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
       }
-    });
-    
-    var mailOptions = {
-      from: 'dawerhajo@gmail.com',
-      to: user[0],
-      subject: 'InspireSooq OTP ',
-      text: `To verify your email address, please use the following One Time Password (OTP):  ${otp } Thank you for shopping with us.`
-    };
-    
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-      }
-   
-      
-      
+
+
+
 
 
     })
-  
-    
+
+
 
   },
 
-  
+
   signIn: async (user, callback) => {
     var myQuery = await `SELECT userId,type FROM users WHERE email = '${user[0]}' AND password = '${user[1]}' `
     con.query(myQuery, (error, result) => {
@@ -86,7 +86,7 @@ module.exports = {
   },
 
 
-  
+
   addProduct: async (data, id, callback) => {
     var myQuery1 = await `SELECT shopId FROM shops WHERE userId = '${id}' `
     con.query(myQuery1, async (error, result1) => {
@@ -124,7 +124,7 @@ module.exports = {
       callback(error, result)
     })
   },
-  
+
 
 
   getCatProduct: async (catId, callback) => {
@@ -154,19 +154,21 @@ module.exports = {
     // })
   },
 
-  getShopImage:  async (id, callback) => {
+  getShopImage: async (id, callback) => {
 
-    
+
     var myQuery = `SELECT image, productId FROM products  INNER JOIN shops ON  products.shopId = shops.shopId WHERE userId = ${id} ORDER BY productId DESC`
     con.query(myQuery, async (error, result) => {
       console.log("image:::", result)
-     for(var i = 0; i < result.length; i++){
-      callback(error, result)
-     }
-     
+      for (var i = 0; i < result.length; i++) {
+        callback(error, result)
+      }
+
     })
-  
+
   },
+
+
 
   getStore: async (id, callback) => {
     var myQuery = `SELECT * FROM products  WHERE shopId = '${id}' ORDER BY productId DESC`
@@ -209,14 +211,14 @@ module.exports = {
     })
   },
 
-  getUserType: async (id,callback) => {
+  getUserType: async (id, callback) => {
     var myQuery = await ` SELECT type FROM users WHERE userId = ${id}`
     con.query(myQuery, (error, result) => {
       callback(error, result)
     })
   },
 
-  getOTP: async (id,callback) => {
+  getOTP: async (id, callback) => {
     var myQuery = await ` SELECT password FROM users WHERE userId = ${id}`
     con.query(myQuery, (error, result) => {
       callback(error, result)
@@ -224,14 +226,57 @@ module.exports = {
   },
 
 
-  confirmation:async (data, id, callback) => {
+  confirmation: async (data, id, callback) => {
     var myQuery = await ` UPDATE  users SET password = ${data}  WHERE userId = ${id}`
     con.query(myQuery, data, (error, result) => {
       callback(error, result)
     })
   },
 
-  
+  addToCart: async (data, callback) => {
+    var myQuery = await "INSERT INTO cart (userId,productId) VALUES (?,?) "
+    con.query(myQuery, data, (error, result) => {
+      console.log("result", result)
+      callback(error, result)
+      // output.insertId = 0
+    })
+  },
+
+  getCart: async (id, callback) => {
+    var myQuery = await `SELECT * FROM products  INNER JOIN cart ON  products.productId = cart.productId WHERE userId = ${id} ORDER BY cartId DESC`
+    con.query(myQuery, (error, result) => {
+      console.log("result", result)
+      callback(error, result)
+      // output.insertId = 0
+    })
+  },
+
+
+  deleteCart: async (id, user, callback) => {
+    var myQuery = await ` DELETE FROM cart WHERE cartId= ${id}`
+    con.query(myQuery, async (error, result) => {
+      var myQuery = await `SELECT * FROM products  INNER JOIN cart ON  products.productId = cart.productId WHERE userId = ${user} ORDER BY cartId DESC`
+      con.query(myQuery, (error, result) => {
+        console.log("result", result)
+        callback(error, result)
+        // output.insertId = 0
+      })
+    })
+  },
+
+  cahngOnQty: async (data, callback) => {
+    var myQuery = await  ` UPDATE  cart SET qty = ?, total = ? WHERE cartId = ${data.cartId}`
+    con.query(myQuery,data.qty, (error, result) => {
+      console.log("QQQQTTTYYY" ,data.qty, result)
+      var myQuery2 = `SELECT * FROM products  INNER JOIN cart ON  products.productId = cart.productId WHERE userId = ${data.userId} ORDER BY cartId DESC`
+      con.query(myQuery2, (error, result2) => {
+        // console.log("result2", result2)
+        callback(error, result2)
+        // output.insertId = 0
+      })
+    })
+  },
+
   editProduct: async (data, id, callback) => {
     var myQuery = await ` UPDATE  products SET productName = ?, price = ?, categories = ?, description = ?, image = ? WHERE productId = ${id}`
     con.query(myQuery, data, (error, result) => {

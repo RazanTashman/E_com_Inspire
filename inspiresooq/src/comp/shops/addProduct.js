@@ -19,6 +19,7 @@ class addProduct extends React.Component {
             priceEr: "",
             categoriesEr: "",
             formType: true,
+            url:""
         }
     }
     getTheInfo(event) {
@@ -38,9 +39,35 @@ class addProduct extends React.Component {
                                 var base64String = reader.result;
                                 var n = base64String.indexOf("base64,")+7;
                                 base64String = reader.result.substr(n); 
-                              that.setState({ [event.target.name]: base64String });
+                            //   that.setState({ [event.target.name]: base64String });
+                              
+                                // console.log(base64String)
+                                const data = window.atob(base64String)
+                                const buf = new Array(data.length);
+                                for (let i = 0; i < data.length; i++) {
+                                    buf[i] = data.charCodeAt(i);
+                                }
+                              
+                                // const byteArray = new Uint8Array(buf);
+                                // const blob = new Blob([byteArray], {type: "image/png"});
+                                // var url =URL.createObjectURL(blob);
+                                var url = URL.createObjectURL(new Blob( [  new Uint8Array(buf) ], {type: "image/png"}) )
+                             console.log("url:::",url)
+                             that.setState({url: url})
 
-                                
+                             var myCanvas = document.getElementById('canvas');
+                                var ctx = myCanvas.getContext('2d');
+                                var img = new Image;
+                                img.src = that.state.url
+                                img.onload = function(){
+                                ctx.drawImage(img,100,0,80, 80); 
+                                };
+                            //    var width = img.width
+                            //    var height = img.height
+                            //     myCanvas.width = width
+                                myCanvas.height = "100"
+                              
+                               
                               }
         }
     }
@@ -65,7 +92,7 @@ class addProduct extends React.Component {
             success: function (data) {
                 console.log("dataaaa:", data)
                 that.setState({ products: data })
-                // that.setState({ formType: false })
+                that.setState({ formType: false })
             },
             error: function (err) {
                 console.log("err", err)
@@ -75,6 +102,13 @@ class addProduct extends React.Component {
 
 
     }
+
+
+    //    renderRedirect = () => {
+    //     if (this.state.redirect) {
+    //       return <Redirect to={`/store/${this.state.shopId}`} />
+    //     }
+    //   }
 
     render() {
         return (
@@ -123,7 +157,11 @@ class addProduct extends React.Component {
                            {/*  key={Math.random().toString(36) || ''} */}
                             <label className="custom-file-label" for="customFile">Pick Image</label>
                         </div>
-
+                        
+                        {/* <img style={{width:"13%" }} src = { URL.createObjectURL(new Blob( [  new Uint8Array(this.state.buf) ], {type: "image"}) )} />  */}
+                        {/* <img style={{width:"13%", marginTop:"2%" }} src = { this.state.url} />  */}
+                        { console.log("canvasss::::",document.getElementById('canvas').toDataURL(' image/jpeg '))}
+                        <canvas style={{ marginTop:"2%" ,height:"80px" }} id ="canvas"></canvas>
                         <br /><br />
                         <div>
                             {/* {this.renderRedirect()} */}

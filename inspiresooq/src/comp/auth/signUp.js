@@ -91,6 +91,8 @@ class signUp extends React.Component {
       email: email,
       type: type,
     }
+console.log("email:",email)
+
     var that = this
     $.ajax({
       method: 'POST',

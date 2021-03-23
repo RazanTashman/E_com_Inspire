@@ -1,23 +1,27 @@
 const router = require("express").Router()
 const controller = require ('./controllers.js')
 
+authenticateToken = require("./middlewares")
+
 router.post("/registration", controller.registration);
 
 router.post("/signin", controller.signIn);
 
-router.post("/shop/addproduct", controller.addProduct);
+router.post("/shop/addproduct", authenticateToken,controller.addProduct);
 
-router.get("/user/products", controller.getAllProduct);
+router.get("/user/products",controller.getAllProduct);
 
 router.get("/user/products/:catId", controller.getCatProduct);
 
-router.get("/shop/products/:id", controller.getShopProduct);
+router.get("/shop/products/:id", authenticateToken,controller.getShopProduct);
 
 router.get("/shop/products/image/:id", controller.getImage);
 
-router.post("/shop/products/image/", controller.uploadImage);
+// router.post("/shop/products/image/", controller.uploadImage);
 
 router.get("/store/:id", controller.getStore);
+
+router.get("/storeInfo/:id", controller.getStoreInfo);
 
 router.get("/product/:id", controller.getProductDetails);
 
@@ -27,7 +31,7 @@ router.put("/shop/product/:id", controller.editProduct);
 
 router.delete("/shop/product/:id/:user", controller.deletProduct);
 
-router.get("/shop/:id", controller.shopDetails);
+router.get("/shop/:id",authenticateToken, controller.shopDetails);
 
 router.get("/categories", controller.getCategories);
 
@@ -37,13 +41,19 @@ router.post("/pwdverification", controller.getOTP);
 
 router.post("/confirmation", controller.confirmation);
 
-router.post("/cart", controller.addToCart);
+router.post("/cart", authenticateToken,controller.addToCart);
 
-router.get("/cart/:id", controller.getCart);
+router.get("/cart/:id", authenticateToken,controller.getCart);
 
 router.delete("/cart/:id/:user", controller.deleteCart);
 
-router.post("/qty", controller.cahngOnQty);
+router.post("/qty", authenticateToken,controller.cahngOnQty);
+
+router.post("/admin/addcat",controller.addCat);
+
+router.post("/admin/addsubcat",controller.addSubCat);
+
+
 
 
 // http://localhost:5000/shop?shop=s&id=74

@@ -33,7 +33,7 @@ class Product extends React.Component {
                     price: data[0].price,
                     description: data[0].description,
                     categories: data[0].categories,
-                    image: data[0].image.data,
+                    image: data[0].image,
                     shopeName: data[0].shopeName,
                     shopId: data[0].shopId
                 })
@@ -45,6 +45,7 @@ class Product extends React.Component {
         })
 
     }
+
     renderRedirect = () => {
         if (this.state.redirect) {
           return <Redirect to={`/store/${this.state.shopId}`} />
@@ -63,8 +64,9 @@ class Product extends React.Component {
             data: JSON.stringify(data),
             url: `http://localhost:5000/cart`,
             contentType: "application/json",
+            headers: {'Authorization':`Bearer ${localStorage.getItem('token')}`},
             success: function (data) {
-                console.log("dataaaa:", data)
+                console.log("dataavvvvvvvvvvvvvvvvaa:", data)
                 that.setState({ products: data })
                 that.setState({ formType: false })
             },
@@ -109,7 +111,9 @@ class Product extends React.Component {
                         <div className="col-sm-6" >
                             <div style={{ float: "right", marginTop: "20%" }}>
                                 {/* <div className="card" style={{ width: "50%" }}  style={{ marginTop: "15%" }}> */}
-                                <img src= { URL.createObjectURL(new Blob( [  new Uint8Array(this.state.image) ], {type: "image"}) )}style={{ marginTop: "20%", width: "50%" }} alt="Card image cap" />
+                                {/* <img src= { URL.createObjectURL(new Blob( [  new Uint8Array(this.state.image) ], {type: "image"}) )}style={{ marginTop: "20%", width: "50%" }} alt="Image" /> */}
+                                <img src= {this.state.image }style={{ marginTop: "20%", width: "50%" }} alt="Image" />
+
                                 <h6 style={{ color: "gray", fontSize: "22px" }}> <b style={{ color: "rgb(92, 91, 91)" }} ></b>{this.state.description}</h6>
                             </div>
                         </div >
@@ -131,7 +135,7 @@ class Product extends React.Component {
                 </div>
 
                 {/* <div className="card" style={{ width: "50%" }}  style={{ marginTop: "15%" }}>
-                            <img className="border border-success card-img-top rounded-circle" src={ProductImg} style={{ marginTop:"-30%",marginLeft:"15%", width:"200px", height:"200px"}} alt="Card image cap" />
+                            <img className="border border-success card-img-top rounded-circle" src={ProductImg} style={{ marginTop:"-30%",marginLeft:"15%", width:"200px", height:"200px"}} alt="Image" />
                             <div className="card-body">
                                 <h1 className="card-text" style={header}>{this.state.shopeName}</h1>
                                 <br/>

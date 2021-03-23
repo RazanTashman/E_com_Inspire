@@ -6,11 +6,12 @@ import cart from "../../images/cart.png"
 function Nav() {
 
   const [role, setRole] = useState("")
+  const [name, sename] = useState("")
   const mystyle = {
-      background: "#afacec",
-      // position: 'fixed',
-      height:'10%',
-      width: '100%',
+    background: "#afacec",
+    // position: 'fixed',
+    height: '10%',
+    width: '100%',
 
   };
 
@@ -22,8 +23,9 @@ function Nav() {
       url: `http://localhost:5000/usertype/${localStorage.getItem("id")}`,
       contentType: "application/json",
       success: function (data) {
-        console.log("naaaaaavvvv:", data[0].type)
+        console.log("naaaaaavvvv:", data[0].firstName)
         setRole(data[0].type)
+        sename(data[0].firstName)
 
 
       },
@@ -40,34 +42,37 @@ function Nav() {
 
 
     <div  >
- <nav  style={mystyle} className=" navbar  fixed-top ">
-{/* <nav  className="navbar navbar-inverse  "> */}
-  <div className="container-fluid">
-    <div className="navbar-header">
-      <a style={{ marginLeft:"0px" , marginTop:"18%", fontWeight: 'bold', color:"white", fontSize:"15px"}} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
-    </div>
+      <nav style={mystyle} className=" navbar  fixed-top ">
+        {/* <nav  className="navbar navbar-inverse  "> */}
+        <div className="container-fluid">
+          <div className="navbar-header">
+            <a style={{ marginLeft: "0px", marginTop: "18%", fontWeight: 'bold', color: "white", fontSize: "15px" }} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
+          </div>
 
-    {role === "shop" && 
-    <div className="nav navbar-nav">
-      {/* <li className="active"><a href="#">Home</a></li> */}
 
- 	{/* <Link to="/user" className="navbar-brand text-white" > <b>Home </b> <span className="sr-only"></span></Link> */}
+          {role === "shop" &&
+            <div className="nav navbar-nav">
+              {/* <li className="active"><a href="#">Home</a></li> */}
 
-      <li style={{marginTop:"-0.3%",fontWeight: 'bold', fontSize:"15px"}} className=" dropdown "><a className="dropdown-toggle text-white" data-toggle="dropdown" href="/home"> Swich account to</a>
-        <ul className="dropdown-menu">
-          <li><a href="/user">User</a></li>
-          <li><a href="/home">Shop</a></li>
-        </ul>
-      </li>
-    </div>
-}
-<a  className="active navbar-brand" href="/cart" >
-  <img  style={{ width:"5%"}} src= {cart} />
-</a>
-{/* style={{color:"white", marginLeft:"300px", marginTop:"1%", fontWeight: 'bold', fontSize:"15px"}} */}
-    <a  style={{color:"white", marginRight:"1%",  fontWeight: 'bold', fontSize:"15px"}} className="active navbar-brand" href="/login"  onClick={() => { localStorage.removeItem('id') }}>Sign Out</a>
-  </div>
-</nav>
+              {/* <Link to="/user" className="navbar-brand text-white" > <b>Home </b> <span className="sr-only"></span></Link> */}
+
+              <li style={{ marginTop: "-0.3%", fontWeight: 'bold', fontSize: "15px" }} className=" dropdown "><a className="dropdown-toggle text-white" data-toggle="dropdown" href="/home"> Swich account to</a>
+                <ul className="dropdown-menu">
+                  <li><a href="/user">User</a></li>
+                  <li><a href="/home">Shop</a></li>
+                </ul>
+              </li>
+            </div>
+          }
+          <a className="active navbar-brand" href="/cart" >
+            <img style={{ width: "5%" }} src={cart} />
+          </a>
+
+          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" >Welcome {name},</a>
+          {/* style={{color:"white", marginLeft:"300px", marginTop:"1%", fontWeight: 'bold', fontSize:"15px"}} */}
+          <a style={{ color: "white", marginRight: "1%", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" onClick={() => { localStorage.removeItem('token') }}>Sign Out</a>
+        </div>
+      </nav>
     </div>
 
   );

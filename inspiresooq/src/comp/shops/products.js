@@ -27,10 +27,10 @@ class Products extends React.Component {
       method: 'GET',
       url: `http://localhost:5000/shop/products/${localStorage.getItem("id")}`,
       contentType: "application/json",
+      headers: {'Authorization':`Bearer ${localStorage.getItem('token')}`},
       success: function (data) {
         console.log("daaaaata:", data)
         that.setState({ products: data })
-        console.log( "Ajax",that.fromAdd.hasOwnProperty("products"))
         if (that.fromAdd.hasOwnProperty("products")){
           console.log("I'm ")
           that.setState({
@@ -100,7 +100,7 @@ class Products extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {console.log("JSX:",this.state.products)}
+              {/* {console.log("JSX:",this.state.products)} */}
 
               {this.state.products.map((product) => {
                 return (
@@ -110,16 +110,17 @@ class Products extends React.Component {
                     <td>{product.price}</td>
                     <td>{product.description}</td>
                     <td>{product.categories}</td>
-                   {console.log("Image:::", product.image.data)}
+                   {console.log("Image:::", product.image)}
                     {/* <td>{product.price}</td> */}
                     {/* ["image/png", "image/jpeg", "image/gif"] */}
                     {console.log( "Uint8Array::",URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) ))}
-                    <td>  <img style={{width:"13%" }} src = { URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )} /> </td>
+                    {/* <td>  <img style={{width:"13%" }} src = { URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )} /> </td> */}
+                    <td>  <img style={{width:"20%" }} src = {product.image} /> </td>
 
                     {/* data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" */}
                     <td>
-                      <img src= {Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "5%", margin: "1%" }}className={product.productId} onClick={() => { this.edit(product.productId) }} />
-                      <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "5%", margin: "1%" }} className={product.productId} onClick={() => { this.delete(product.productId) }} />
+                      <img src= {Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "10%", margin: "1%" }}className={product.productId} onClick={() => { this.edit(product.productId) }} />
+                      <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "10%", margin: "1%" }} className={product.productId} onClick={() => { this.delete(product.productId) }} />
                       {/* <button style={{ width: "30%", height: "10%", margin: "5%" }} className={product.productId} className=" butt btn-lg text-white " onClick={() => { this.edit(product.productId) }}>Edit</button> */}
                       {/* <button style={{ width: "30%", height: "10%" }} className={product.productId} className=" butt btn-lg text-white" onClick={() => { this.delete(product.productId) }}>Delete</button> */}
                     </td>

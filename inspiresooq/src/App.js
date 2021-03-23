@@ -7,7 +7,11 @@ import Product from './comp/users/product'
 import Store from "./comp/users/store"
 import OTP from "./comp/auth/otp"
 import Cart from "./comp/users/cart"
+import Categories from "./comp/admin/categories"
+import AddCat from "./comp/admin/addCat"
+import AddSubCat from "./comp/admin/addSubCat"
 import './App.css';
+
 
 import { BrowserRouter, Switch, Route} from "react-router-dom";
 
@@ -23,7 +27,12 @@ function App() {
             <Route path= '/product/:id' component = {Product}></Route>
             <Route path= '/store/:id' component = {Store}></Route>   
             <Route path= '/pwdverification' component = {OTP}></Route>   
-            <Route path= '/cart' component = {Cart}></Route>         
+            <Route path= '/cart' component = {Cart}></Route> 
+            <Route path= '/admin/categories' component = {Categories}></Route>
+            <Route path= '/admin/addsubcategories' component = {AddSubCat}></Route>
+            <Route path= '/admin/addcategories' component = {AddCat}></Route>
+
+                   
         </Switch>
       </BrowserRouter>
     </div>

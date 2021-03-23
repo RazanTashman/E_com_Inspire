@@ -1,10 +1,13 @@
 const con = require('../db/db')
 var nodemailer = require('nodemailer');
-
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const dotenv = require('dotenv');
+dotenv.config();
 module.exports = {
   registration: async (user, shop, otp, callback) => {
     var output = {}
-
+    // [req.body.email, otp ,req.body.type, req.body.fName, req.body.lName, req.body.shopName]
     var myQuery = await `SELECT userId FROM users WHERE email = '${user[0]}' `
     con.query(myQuery, (error, result) => {
       console.log("result", result)
@@ -19,7 +22,7 @@ module.exports = {
 
       if (result.length === 0 && user[0] !== "") {
 
-        var myQuery2 = "INSERT INTO users (email, password,type) VALUES (?,?,?) "
+        var myQuery2 = "INSERT INTO users (email, password,type,firstName,lastName) VALUES (?,?,?,?,?) "
 
         con.query(myQuery2, user, async (error, result2) => {
           console.log("result2", result2.insertId)
@@ -43,6 +46,7 @@ module.exports = {
 
         var transporter = nodemailer.createTransport({
           service: 'gmail',
+          // transportMethod: 'SMTP',
           auth: {
             user: 'carsooqjo@gmail.com',
             pass: 'Adam123456@'
@@ -77,10 +81,26 @@ module.exports = {
 
 
   signIn: async (user, callback) => {
-    var myQuery = await `SELECT userId,type FROM users WHERE email = '${user[0]}' AND password = '${user[1]}' `
-    con.query(myQuery, (error, result) => {
-      console.log("result", result)
-      callback(error, result)
+    console.log("user", user)
+    var myQuery = await `SELECT userId,type,password FROM users WHERE email = '${user[0]}' `
+
+    con.query(myQuery, async (error, result) => {
+      console.log("result", result[0].password)
+      const validPassword = await bcrypt.compare(user[1], result[0].password);
+      console.log("validPassword", validPassword)
+      if (validPassword) {
+        var obj = {}
+        obj.data = result
+
+        const accessToken = jwt.sign(user[0], process.env.SECRET_TOKEN)
+        obj.token = accessToken
+        console.log("accessToken", obj)
+
+      }
+      callback(error, obj)
+      // else{
+      //   return res.sendStatus(401)
+      // }
 
     })
   },
@@ -172,11 +192,22 @@ module.exports = {
 
   getStore: async (id, callback) => {
     var myQuery = `SELECT * FROM products  WHERE shopId = '${id}' ORDER BY productId DESC`
+    // var myQuery = `SELECT * FROM products  INNER JOIN shops ON  products.shopId = shops.shopId WHERE shopId = '${id}'`
+
     con.query(myQuery, async (error, result) => {
       callback(error, result)
     })
 
   },
+
+  getStoreInfo: async (id, callback) => {
+    var myQuery = `SELECT * FROM shops  INNER JOIN products ON  products.shopId = shops.shopId WHERE productId = '${id}'`
+    con.query(myQuery, async (error, result) => {
+      console.log("reeess", result)
+      callback(error, result)
+    })
+  },
+
   shopDetails: async (id, callback) => {
     var myQuery1 = await `SELECT shopId FROM shops WHERE userId = ${id} `
     con.query(myQuery1, async (error, result1) => {
@@ -212,7 +243,7 @@ module.exports = {
   },
 
   getUserType: async (id, callback) => {
-    var myQuery = await ` SELECT type FROM users WHERE userId = ${id}`
+    var myQuery = await ` SELECT * FROM users WHERE userId = ${id}`
     con.query(myQuery, (error, result) => {
       callback(error, result)
     })
@@ -227,7 +258,8 @@ module.exports = {
 
 
   confirmation: async (data, id, callback) => {
-    var myQuery = await ` UPDATE  users SET password = ${data}  WHERE userId = ${id}`
+    console.log("ppppwwww controller:", data)
+    var myQuery = await ` UPDATE  users SET password = ${data}  WHERE userId = '${id}'`
     con.query(myQuery, data, (error, result) => {
       callback(error, result)
     })
@@ -265,9 +297,9 @@ module.exports = {
   },
 
   cahngOnQty: async (data, callback) => {
-    var myQuery = await  ` UPDATE  cart SET qty = ?, total = ? WHERE cartId = ${data.cartId}`
-    con.query(myQuery,data.qty, (error, result) => {
-      console.log("QQQQTTTYYY" ,data.qty, result)
+    var myQuery = await ` UPDATE  cart SET qty = ?, total = ? WHERE cartId = ${data.cartId}`
+    con.query(myQuery, data.qty, (error, result) => {
+      console.log("QQQQTTTYYY", data.qty, result)
       var myQuery2 = `SELECT * FROM products  INNER JOIN cart ON  products.productId = cart.productId WHERE userId = ${data.userId} ORDER BY cartId DESC`
       con.query(myQuery2, (error, result2) => {
         // console.log("result2", result2)
@@ -306,6 +338,30 @@ module.exports = {
         // con.query(myQuery1, function (err, result1) {
         //     callback(err, result1);
         //   });
+      })
+    })
+  },
+
+
+  addCat: async (data, callback) => {
+    var myQuery = `INSERT INTO categories (category, image) VALUES (?,?) `
+    con.query(myQuery, data, (error, result) => {
+      console.log("............", result)
+      callback(error, result)
+    })
+  },
+
+  addSubCat: async (data, callback) => {
+    console.log("........data[0]", data[0])
+    var myQuery1 = await `SELECT * FROM categories WHERE category = ${JSON.stringify(data[0])}`
+    con.query(myQuery1, (error, result1) => {
+      console.log("........result1", result1)
+      data[0] = result1[0].catId
+      var myQuery = `INSERT INTO subcat (catId, subCat, image) VALUES (?,?,?) `
+      con.query(myQuery, data, (error, result) => {
+        console.log("............", result)
+        callback(error, result)
+
       })
     })
   },

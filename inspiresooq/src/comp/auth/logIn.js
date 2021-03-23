@@ -49,12 +49,13 @@ class login extends React.Component {
         success: function (data) {
           console.log("data", data)
 
-          if (data.length === 0)
+          if (!data)
             that.setState({ error: "Inavlid Registration " });
           // localStorage.setItem('token', data.token)
           else {
-            localStorage.setItem('id', data[0].userId)
-            if(data[0].type === "shop")
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('id', data.data[0].userId)
+            if(data.data[0].type === "shop")
               window.location = '/home';
             else
              window.location = '/user';

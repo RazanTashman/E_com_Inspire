@@ -1,10 +1,16 @@
 const con = require('../db/db')
 const model = require('./model')
+const bcrypt = require ('bcryptjs')
 
 module.exports = {
   registration: (req, res) => {
     var otp = Math.floor(Math.random()*(1000000-100000) +100000) 
-    const user = [req.body.email, otp ,req.body.type]
+    // const user
+    if (req.body.type === "user")
+      var user = [req.body.email, otp ,req.body.type, req.body.fName, req.body.lName]
+    else 
+      var user = [req.body.email, otp ,req.body.type,req.body.shopName,null]
+
     const shop = [req.body.shopName, req.body.phoneNo, req.body.address]
 
     console.log("shhoooop", shop)
@@ -40,7 +46,7 @@ module.exports = {
     console.log ("daaaaaaaaaata",req.body) 
   
     
-var buf = Buffer.from(req.body.image, 'base64'); // T
+// var buf = Buffer.from(req.body.image, 'base64'); // T
 // console.log("buf::",byteCharacters);
 //  const byteNumbers = new Array(byteCharacters.length);
 //                             for (let i = 0; i < byteCharacters.length; i++) {
@@ -48,10 +54,10 @@ var buf = Buffer.from(req.body.image, 'base64'); // T
 //                             }
 
                             // const buf = new Uint8Array(byteCharacters);
-console.log("buf::",buf);
+// console.log("buf::",buf);
 
 // console.log('"' + data + '" converted to Base64 is "' + base64data + '"');
-    const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,buf]
+    const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,req.body.image]
     console.log ("data",data)
     model.addProduct(data,id, (error, result) => {
       if (error)
@@ -135,9 +141,22 @@ getStore: (req, res) => {
   res.send(result)
 })
 },
+
+getStoreInfo: (req, res) => {
+  const id = req.params.id
+  model.getStoreInfo(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
 shopDetails: (req, res) => {
   const user =req.params.id
-  console.log("controller" , user)
+  console.log("I'm heeeeree")
   model.shopDetails(user,(error, result) => {
   if (error)
     console.log("error from controller", error)
@@ -210,10 +229,16 @@ getOTP: (req, res) => {
 })
 },
 
-confirmation: (req, res) => {
+confirmation: async (req, res) => {
+  console.log("heeererre",req.body.password)
   var id = req.body.userId
   const data = req.body.password
-  model.confirmation(data,id, (error, result) => {
+
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(data, salt)
+ console.log("hashedPassword::",hashedPassword)
+
+  model.confirmation(JSON.stringify(hashedPassword),id, (error, result) => {
     if (error)
       console.log("error from controller", error)
     else {
@@ -312,6 +337,34 @@ deletProduct: (req, res) => {
   }
   res.send(result)
 })
+},
+
+addCat: (req, res) => {
+  const data = [req.body.category,req.body.image]
+  console.log ("data",data)
+  model.addCat(data, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
+
+addSubCat: (req, res) => {
+  console.log ("daaaaaaaaaata",req.body) 
+  const data = [req.body.category, req.body.subCat,req.body.image]
+  console.log ("data",data)
+  model.addSubCat(data, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
 },
 
 

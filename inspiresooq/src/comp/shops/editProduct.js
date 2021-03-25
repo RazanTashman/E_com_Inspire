@@ -11,13 +11,16 @@ class editProduct extends React.Component {
             price: "",
             description: "",
             categories: "",
-            image: null,
+            subcat: "",
+            catId: "",
+            image: "",
             redirect: false,
             productNameEr: "",
             priceEr: "",
             categoriesEr: "",
-            formType: true,
-            rendering: this.props.rendering
+            rendering: this.props.rendering,
+            allCategories: [],
+            subcats: []
         }
 
         console.log("this.props.rendering::", this.state.rendering)
@@ -35,8 +38,30 @@ class editProduct extends React.Component {
                     productName: data[0].productName,
                     price: data[0].price,
                     description: data[0].description,
-                    categories: data[0].categories,
-                    image: null
+                    categories: data[0].category,
+                    catId: data[0].catId,
+                    subcat: data[0].subCatId,
+                    image: data[0].image
+                })
+
+                that.getSubcat(that.state.catId)
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+            }
+        })
+
+
+        $.ajax({
+            method: 'GET',
+            url: `http://localhost:5000/categories`,
+            contentType: "application/json",
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            success: function (data) {
+                console.log("allCategories:", data)
+                that.setState({
+                    allCategories: data
                 })
             },
             error: function (err) {
@@ -50,8 +75,37 @@ class editProduct extends React.Component {
     getTheInfo(event) {
         var that = this
         if (event.target.name !== "image") {
-            this.setState({ [event.target.name]: event.target.value });
+            if (event.target.name === "categories") {
+                console.log("name::", event.target.name)
+                console.log("value::", event.target.value)
+                var catID = that.state.allCategories.filter(cat => cat.category === event.target.value)
+                this.setState({ categories: event.target.value });
+                // console.log("this.state.categories",this.state.categories)
+                // this.setState({ [event.target.name]: event.target.value });
+                // this.setState({ [event.target.value]: catID[0].catId });
+                console.log([event.target.value], catID[0].catId )
+                that.getSubcat(catID[0].catId)
+            }
+            else{
+                 this.setState({ [event.target.name]: event.target.value });
             console.log([event.target.name], event.target.value)
+            }
+
+
+
+            //////////////////
+            // if (event.target.name === "categories") {
+            //     console.log("name::", event.target.name)
+            //     console.log("value::", event.target.value)
+            //     var catID = that.state.allCategories.filter(cat => cat.category === event.target.value)
+            //     that.getSubcat(catID[0].catId)
+            //     // this.setState({ [event.target.name]: catID[0].catId });
+            //     // console.log([event.target.name], catID[0].catId)
+            // }
+            // else{
+            //     this.setState({ [event.target.name]: event.target.value });
+            //     console.log([event.target.name], event.target.value)
+            // }
         }
         else {
             console.log("image::::::::", event.target.files[0].name)
@@ -63,16 +117,16 @@ class editProduct extends React.Component {
                 var n = base64String.indexOf("base64,") + 7;
                 base64String = reader.result.substr(n);
                 console.log("base64String", base64String)
-                
+
                 const data = window.atob(base64String)
                 console.log("atob", data)
-                
+
                 const buf = new Uint8Array(data.length);
-               
+
                 for (let i = 0; i < data.length; i++) {
                     buf[i] = data.charCodeAt(i);
                 }
-               
+
                 console.log("buf", buf)
                 that.uploadBytes(buf, event.target.files[0].name)
 
@@ -92,18 +146,22 @@ class editProduct extends React.Component {
 
 
     edit() {
-        // this.setState({ formType: false }) 
+        // var catID =
         this.setState({ rendering: 2 })
 
+       
+        console.log("categories EDIT",this.state.categories, "subcat EDIT",this.state.subcat,)
         var data = {
             productName: this.state.productName,
             price: this.state.price,
-            categories: this.state.categories,
+            categories:  this.state.allCategories.filter(cat => cat.category === this.state.categories)[0].catId,
+            subcat: JSON.parse(this.state.subcat) ,
             description: this.state.description,
             image: this.state.image,
             userId: localStorage.getItem("id")
         }
         console.log(data)
+
         var that = this
         $.ajax({
             method: 'PUT',
@@ -121,10 +179,32 @@ class editProduct extends React.Component {
         })
     }
 
+
+    getSubcat(catId) {
+        console.log("get Subcat")
+        var that = this
+        $.ajax({
+            method: 'GET',
+            url: `http://localhost:5000/subcategories/${catId}`,
+            contentType: "application/json",
+            success: function (data) {
+                console.log("subbbb:", data)
+                that.setState({
+                    subcats: data
+                })
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+
+            }
+        })
+    }
+
     render() {
         return (
             <div>
-                { console.log("edit:", this.state.rendering)}
+                {/* { console.log("edit:", this.state.rendering)} */}
                 {this.state.rendering === 4 ?
                     <form action="/items" style={{ marginTop: "8%", marginLeft: "30%", width: "40%" }} className="FORM">
 
@@ -150,23 +230,38 @@ class editProduct extends React.Component {
                             <input type="text" className="form-control" placeholder="Description" value={this.state.description} name="description" required="required" onChange={(e) => this.getTheInfo(e)} />
                         </div>
                         <br />
+                        <div>
+                            {this.state.categories}
+                            <select style={{ height: "35px" }} name="categories" value={this.state.categories} className="form-control" required="required"
+                                onChange={(e) => this.getTheInfo(e)}    >
+                                <option name="" selected disabled>Choose Option</option>
+                                {this.state.allCategories.map((category) => {
+                                    return (
+                                        <option value={category.category} >{category.category}</option>
+                                    )
+                                })
+                                }
 
-                        <select name="categories" id="inputState" value={this.state.categories} className="form-control" required="required"
-                            onChange={(e) => this.getTheInfo(e)}  >
-                            <option name="" disabled>Choose option</option>
-                            <option value="electronics" >Electronics</option>
-                            <option value="gaming" >Gaming</option>
-                            <option value="food" >Food</option>
-                            <option value="women" >Women's Fashion</option>
-                            <option value="men" >Men's Fashion</option>
-                            <option value="kids" >Kids</option>
-                            <option value="Pets" >Pets</option>
+                            </select>
+                        </div>
+                        <br />
 
+
+                        <select style={{ height: "35px" }} name="subcat" value={this.state.subcat} className="form-control" required="required"
+                            onChange={(e) => this.getTheInfo(e)}    >
+                            <option name="" selected disabled>Choose Option</option>
+                            {this.state.subcats.map((subcat) => {
+                                return (
+                                    <option value={subcat.subCatId} >{subcat.subCat}</option>
+                                )
+                            })
+                            }
                         </select>
+                        <br />
                         <br />
 
                         <div className="custom-file">
-                            <input type="file" className="custom-file-input" id="customFile" required="required"  name="image" onChange={(e) => this.getTheInfo(e)} />
+                            <input type="file" className="custom-file-input" id="customFile" required="required" name="image" onChange={(e) => this.getTheInfo(e)} />
                             <label className="custom-file-label" for="customFile">Pick Image</label>
                         </div>
 

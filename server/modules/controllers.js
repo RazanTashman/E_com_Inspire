@@ -57,7 +57,7 @@ module.exports = {
 // console.log("buf::",buf);
 
 // console.log('"' + data + '" converted to Base64 is "' + base64data + '"');
-    const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,req.body.image]
+    const data = [req.body.productName, req.body.price,  req.body.description, req.body.categories, req.body.subcat,req.body.image]
     console.log ("data",data)
     model.addProduct(data,id, (error, result) => {
       if (error)
@@ -91,6 +91,20 @@ module.exports = {
     res.send(result)
   })
 },
+
+getSubcatProduct: (req, res) => {
+  var subcatId=req.params.subcatId
+  console.log("catId", subcatId)
+  model.getSubcatProduct(subcatId,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
 
   getShopProduct: (req, res) => {
     const id = req.params.id
@@ -311,9 +325,11 @@ cahngOnQty: (req, res) => {
 
 
 editProduct: (req, res) => {
+
+  console.log("I'm HEEEEEEEERRRREEEEEEEEE")
   const id = req.params.id
-  const data = [req.body.productName, req.body.price, req.body.categories,req.body.description,req.body.image]
-  console.log("data:::",data,id)
+  const data = [req.body.productName, req.body.price, req.body.categories, req.body.subcat, req.body.description,req.body.image]
+  console.log("data:.......::",data,id)
   model.editProduct(data,id,(error, result) => {
   if (error)
     console.log("error from controller", error)
@@ -338,6 +354,32 @@ deletProduct: (req, res) => {
   res.send(result)
 })
 },
+
+getallSubcat:(req, res) => {
+  model.getallSubcat((error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+getSubcat:(req, res) => {
+  subCatId = req.params.id
+  console.log("subCatId", subCatId)
+
+  model.getSubcat(subCatId,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
 
 addCat: (req, res) => {
   const data = [req.body.category,req.body.image]

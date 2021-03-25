@@ -13,6 +13,7 @@ class addProduct extends React.Component {
             price: "",
             description: "",
             categories: "",
+            subcat: "",
             image: "",
             redirect: false,
             productNameEr: "",
@@ -21,16 +22,17 @@ class addProduct extends React.Component {
             formType: true,
             url: "",
             allCategories: [],
+            subcats: []
         }
     }
 
     componentDidMount() {
-        var that =this
+        var that = this
         $.ajax({
             method: 'GET',
             url: `http://localhost:5000/categories`,
             contentType: "application/json",
-            headers: {'Authorization':`Bearer ${localStorage.getItem('token')}`},
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             success: function (data) {
                 console.log("dataaaa:", data)
                 that.setState({
@@ -48,7 +50,12 @@ class addProduct extends React.Component {
         var that = this
         if (event.target.name !== "image") {
             this.setState({ [event.target.name]: event.target.value });
-            console.log([event.target.name], event.target.value)
+            console.log(event.target.name, event.target.value)
+            if (event.target.name === "categories") {
+                console.log("Hellp from cat", event.target.value)
+                that.getSubcat(event.target.value)
+            }
+
         }
         else {
             // this.setState({ [event.target.name]: event.target.files[0].name });
@@ -114,14 +121,34 @@ class addProduct extends React.Component {
             })
         })
     }
+    getSubcat(catId) {
+        console.log("get Subcat")
+        var that = this
+        $.ajax({
+            method: 'GET',
+            url: `http://localhost:5000/subcategories/${catId}`,
+            contentType: "application/json",
+            success: function (data) {
+                console.log("subbbb:", data)
+                that.setState({
+                    subcats: data
+                })
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
 
-
+            }
+        })
+    }
+    
     submit() {
 
         var data = {
             productName: this.state.productName,
             price: this.state.price,
             categories: this.state.categories,
+            subcat: this.state.subcat,
             description: this.state.description,
             image: this.state.image,
             userId: localStorage.getItem("id")
@@ -133,7 +160,7 @@ class addProduct extends React.Component {
             data: JSON.stringify(data),
             url: `http://localhost:5000/shop/addproduct`,
             contentType: "application/json",
-            headers: {'Authorization':`Bearer ${localStorage.getItem('token')}`},
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             success: function (data) {
                 console.log("dataaaa:", data)
                 that.setState({ products: data })
@@ -185,25 +212,33 @@ class addProduct extends React.Component {
                         <br />
 
                         <select style={{ height: "35px" }} name="categories" id="inputState" className="form-control" required="required"
-                            onChange={(e) => this.getTheInfo(e)}  >
+                            onChange={(e) => this.getTheInfo(e)}    >
+                                <option name=""  selected disabled>Choose Option</option>
                             {this.state.allCategories.map((category) => {
-
                                 return (
-                                    <option value={category.category} >{category.category}</option>
+                                    <option value={category.catId} >{category.category}</option>
                                 )
                             })
                             }
 
-                            {/* <option name="" disabled>Choose option</option>
-                            <option value="electronics" >Electronics</option>
-                            <option value="gaming" >Gaming</option>
-                            <option value="women" >Women's Fashion</option>
-                            <option value="men" >Men's Fashion</option>
-                            <option value="kids" >Kids</option>
-                            <option value="Pets" >Pets</option> */}
-
                         </select>
                         <br />
+
+
+                        <select style={{ height: "35px" }} name="subcat" className="form-control" required="required"
+                            onChange={(e) => this.getTheInfo(e)}    >
+                                <option name=""  selected disabled>Choose Option</option>
+                            {this.state.subcats.map((subcat) => {
+                                return (
+                                    <option value={subcat.subCatId} >{subcat.subCat}</option>
+                                )
+                            })
+                            }
+                        </select>
+                        <br />
+
+
+
                         <div className="custom-file">
                             <input style={{ height: "50px" }} type="file" className="custom-file-input" id="customFile" required="required" name="image" onChange={(e) => this.getTheInfo(e)} />
                             {/*  key={Math.random().toString(36) || ''} */}

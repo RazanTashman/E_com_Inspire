@@ -1,6 +1,6 @@
 import React from "react"
 import $ from "jquery"
-import Nav from '../navBar/navBar'
+import Nav from '../navBar/adminNav'
 import { storage } from '../shops/firebase.';
 
 class AddCat extends React.Component {
@@ -85,6 +85,9 @@ class AddCat extends React.Component {
     render() {
         return (
             <div>
+                <Nav/>
+                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} onClick={() => this.storeInfo()} > Welcome to admin panel </h1>
+
                 <form style={{ marginTop: "8%", marginLeft: "30%", width: "40%" }} className="FORM">
                     <div className="form-group">
                         <input style={{ height: "35px" }} type="text" className="form-control" placeholder="Category Name" name="category" required="required" onChange={(e) => this.getTheInfo(e)} />

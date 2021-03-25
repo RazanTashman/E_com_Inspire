@@ -10,7 +10,7 @@ function AdminNav() {
   const mystyle = {
     background: "#afacec",
     // position: 'fixed',
-    height: '10%',
+    height: '8%',
     width: '100%',
 
   };
@@ -48,13 +48,14 @@ function AdminNav() {
           <div className="navbar-header">
             <a style={{ marginLeft: "0px", marginTop: "18%", fontWeight: 'bold', color: "white", fontSize: "15px" }} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
           </div>
-          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" >Welcome to admin panel</a>
-          <a className="active navbar-brand" href="/categorie" > Categories  </a>
-          <a className="active navbar-brand" href="/admin/addcategories" > Add Category   </a>
-          <a className="active navbar-brand" href="/admin/addsubcategories" > Add Subcategory   </a>
+          {/* <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" >Welcome to admin panel</a> */}
+          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/categories" > Categories  </a>
+          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/addcategories" > Add Category   </a>
+          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/addsubcategories" > Add Subcategory   </a>
           <a style={{ color: "white", marginRight: "1%", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" onClick={() => { localStorage.removeItem('token') }}>Sign Out</a>
         </div>
       </nav>
+
     </div>
 
   );

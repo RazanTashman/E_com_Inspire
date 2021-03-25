@@ -37,6 +37,13 @@ td{
   font-family: arial;
   font-size: 13px;
 }
+
+  
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -108,6 +115,17 @@ td{
 .categories:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   /* width: 260px; */
+  /* vertical-align: 77%; */
+  /* box-shadow: gray; */
+  /* margin-top:20%; */
+  /* opacity:0.7; */
+  cursor:pointer ;
+}
+
+
+#gallery:hover{
+  /* height: 180px; */
+  width: 105%;
   /* vertical-align: 77%; */
   /* box-shadow: gray; */
   /* margin-top:20%; */

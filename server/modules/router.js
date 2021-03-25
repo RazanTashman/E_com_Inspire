@@ -13,6 +13,8 @@ router.get("/user/products",controller.getAllProduct);
 
 router.get("/user/products/:catId", controller.getCatProduct);
 
+router.get("/user/subcat/products/:subcatId", controller.getSubcatProduct);
+
 router.get("/shop/products/:id", authenticateToken,controller.getShopProduct);
 
 router.get("/shop/products/image/:id", controller.getImage);
@@ -48,6 +50,10 @@ router.get("/cart/:id", authenticateToken,controller.getCart);
 router.delete("/cart/:id/:user", controller.deleteCart);
 
 router.post("/qty", authenticateToken,controller.cahngOnQty);
+
+router.get("/subcategories",controller.getallSubcat);
+
+router.get("/subcategories/:id",controller.getSubcat);
 
 router.post("/admin/addcat",controller.addCat);
 

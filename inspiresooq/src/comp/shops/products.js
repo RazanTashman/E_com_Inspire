@@ -109,7 +109,7 @@ class Products extends React.Component {
                     <td>{product.productName}</td>
                     <td>{product.price}</td>
                     <td>{product.description}</td>
-                    <td>{product.categories}</td>
+                    <td>{product.category}</td>
                    {console.log("Image:::", product.image)}
                     {/* <td>{product.price}</td> */}
                     {/* ["image/png", "image/jpeg", "image/gif"] */}

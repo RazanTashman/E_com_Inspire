@@ -58,6 +58,36 @@ class AddCat extends React.Component {
 
     }
 
+    edit(id,type){
+        localStorage.setItem(type,id)
+
+        if(type === "cat")
+            window.location = `/admin/editcategories/${id}`
+        else
+            window.location = `/admin/editsubcategories/${id}`
+    }
+
+    
+    delete(id,type) {
+        var that = this
+        $.ajax({
+            method: 'DELETE',
+            url: `http://localhost:5000/subcategories/${id}/${type}`,
+            contentType: "application/json",
+
+            success: function (data) {
+                that.setState({
+                    categories: data.categories,
+                    allSubcats: data.subcat,
+                });
+            },
+
+            error: function (err) {
+                console.log('error:', err)
+            }
+        })
+    }
+
     // getSubcats(catId){
     //     let that = this
     //     $.ajax({
@@ -82,7 +112,7 @@ class AddCat extends React.Component {
         return (
             <div>
                 <Nav />
-                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} onClick={() => this.storeInfo()} > Welcome to admin panel </h1>
+                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
                 <table style={{ marginTop: "5%" }} class="table table-striped">
                     {/* <table className="table" style={{ marginTop: "10%", width: "90%", marginLeft: "3%" }}> */}
                     <thead style={{ background: "#rgb(241, 241, 241)", color: "#817ce9" }}>
@@ -104,8 +134,8 @@ class AddCat extends React.Component {
                                     <td  style={{ width: "3%", textAlign: "center"}}>
                                     <div style={{marginLeft:"30%"}}>
                                         {category.category}
-                                        <img src={Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "3.7%", marginRight:"50%",marginLeft:"3%", float: "right" }} className={category.catId} onClick={() => { this.edit(category.catId) }} />
-                                        <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "3.7%", float: "right" }} className={category.catId} onClick={() => { this.delete(category.catId) }} />
+                                        <img src={Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "3.7%", marginRight:"50%",marginLeft:"3%", float: "right" }} className={category.catId} onClick={() => { this.edit(category.catId, "cat") }} />
+                                        <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "3.7%", float: "right" }} className={category.catId} onClick={() => { this.delete(category.catId,"categories") }} />
                                         </div>
                                     </td>
                                     
@@ -116,8 +146,8 @@ class AddCat extends React.Component {
                                                 return (
                                                     <div style={{marginLeft:"10%"}} >
                                                         <li  style={{ }} >{subcat.subCat}
-                                                            <img src={Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "2.8%",  marginRight:"75%",marginLeft:"3%", float: "right" }} className={subcat.subCat} onClick={() => { this.edit(subcat.subCat) }} />
-                                                            <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "2.8%" , float: "right" }} className={subcat.subCat} onClick={() => { this.delete(subcat.subCat) }} />
+                                                            <img src={Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "2.8%",  marginRight:"75%",marginLeft:"3%", float: "right" }} className={subcat.subCat} onClick={() => { this.edit(subcat.subCatId,"subcat") }} />
+                                                            <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "2.8%" , float: "right" }} className={subcat.subCat} onClick={() => { this.delete(subcat.subCatId,"subcat") }} />
                                                         </li>
                                                     </div>
                                                 )

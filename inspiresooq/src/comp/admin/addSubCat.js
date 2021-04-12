@@ -24,7 +24,7 @@ class AddSubCat extends React.Component {
             contentType: "application/json",
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             success: function (data) {
-                console.log("dataaaa:", data)
+                console.log("allCategories:", data)
                 that.setState({
                     allCategories: data
                 })
@@ -76,10 +76,11 @@ class AddSubCat extends React.Component {
         })
     }
 
-    submit() {
+    add() {
+        console.log(" this.state.category", this.state.category)
 
         var data = {
-            category: this.state.category,
+            category: this.state.allCategories.filter(cat => cat.category === this.state.category )[0].catId,
             subCat: this.state.subCat,
             image: this.state.image,
         }
@@ -94,6 +95,7 @@ class AddSubCat extends React.Component {
             success: function (data) {
                 console.log("dataaaa:", data)
                 that.setState({ products: data })
+                window.location = '/admin/categories'
             },
             error: function (err) {
                 console.log("err", err)
@@ -108,7 +110,7 @@ class AddSubCat extends React.Component {
         return (
             <div>
                 <Nav/>
-                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} onClick={() => this.storeInfo()} > Welcome to admin panel </h1>
+                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
                 <form style={{ marginTop: "8%", marginLeft: "30%", width: "40%" }} className="FORM">
                     <div className="form-group">
                         <input style={{ height: "35px" }} type="text" className="form-control" placeholder="Subcategory Name" name="subCat" required="required" onChange={(e) => this.getTheInfo(e)} />
@@ -117,6 +119,7 @@ class AddSubCat extends React.Component {
 
                     <select style={{ height: "35px" }} name="category" className="form-control" required="required"
                         onChange={(e) => this.getTheInfo(e)}  >
+                            <option name=""  selected disabled>Choose Option</option>
                         {this.state.allCategories.map((category) => {
                             return (
                                 <option value={category.category} >{category.category}</option>
@@ -132,7 +135,7 @@ class AddSubCat extends React.Component {
                     </div>
                     <br />  <br />
 
-                    <button type="button" onClick={this.submit.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg  "> Add</button>
+                    <button type="button" onClick={this.add.bind(this)} style={{ fontWeight: 'bold', fontSize: "22px" }} className=" butt btn-lg  "> Add</button>
                 </form>
             </div>
         )

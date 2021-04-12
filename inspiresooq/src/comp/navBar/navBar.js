@@ -45,6 +45,7 @@ function Nav() {
       <nav style={mystyle} className=" navbar  fixed-top ">
         {/* <nav  className="navbar navbar-inverse  "> */}
         <div className="container-fluid">
+        <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" >Welcome {name},</a>
           <div className="navbar-header">
             <a style={{ marginLeft: "0px", marginTop: "18%", fontWeight: 'bold', color: "white", fontSize: "15px" }} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
           </div>
@@ -55,7 +56,7 @@ function Nav() {
               {/* <li className="active"><a href="#">Home</a></li> */}
 
               {/* <Link to="/user" className="navbar-brand text-white" > <b>Home </b> <span className="sr-only"></span></Link> */}
-
+              
               <li style={{ marginTop: "-0.3%", fontWeight: 'bold', fontSize: "15px" }} className=" dropdown "><a className="dropdown-toggle text-white" data-toggle="dropdown" href="/home"> Swich account to</a>
                 <ul className="dropdown-menu">
                   <li><a href="/user">User</a></li>
@@ -64,11 +65,12 @@ function Nav() {
               </li>
             </div>
           }
+
+          <a  className="active navbar-brand" style={{ marginTop: "1.3%", fontWeight: 'bold', fontSize: "15px", color:"white" }} href={!pathname ? `/orders/${localStorage.getItem("id")}` :`/shop/orders/${localStorage.getItem("id")}`}  >Orders</a>
+
           <a className="active navbar-brand" href="/cart" >
             <img style={{ width: "5%" }} src={cart} />
           </a>
-
-          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" >Welcome {name},</a>
           {/* style={{color:"white", marginLeft:"300px", marginTop:"1%", fontWeight: 'bold', fontSize:"15px"}} */}
           <a style={{ color: "white", marginRight: "1%", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" onClick={() => { localStorage.removeItem('token') }}>Sign Out</a>
         </div>

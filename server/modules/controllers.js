@@ -193,6 +193,75 @@ getCategories:(req, res) => {
 })
 },
 
+
+getOneCategory:(req, res) => {
+  const id = req.params.id
+  model.getOneCategory(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+
+editCategory:(req, res) => {
+  const id = req.params.id
+  const data =[req.body.category,req.body.image]
+  console.log("controool",id, data)
+  model.editCategory(data,id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+getOneSubcat:(req, res) => {
+  const id = req.params.id
+  model.getOneSubcat(id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+editSubcat:(req, res) => {
+  const id = req.params.id
+  const data =[req.body.subcat,req.body.catId,req.body.image]
+  console.log("controool",id, data)
+  model.editSubcat(data,id,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+delete:(req, res) => {
+  const id = req.params.id
+  const type = req.params.type
+  model.delete(id, type,(error, result) => {
+  if (error)
+    console.log("error from controller", error)
+  else {
+    console.log("error from controller", error)
+  }
+  res.send(result)
+})
+},
+
+
+
 getUserType: (req, res) => {
   const user =req.params.id
   console.log("controller" , user)
@@ -264,7 +333,7 @@ confirmation: async (req, res) => {
 
 
 addToCart: (req, res) => {
-  var data = [req.body.userId, req.body.productId]
+  var data = [req.body.userId, req.body.productId,req.body.price]
   model.addToCart(data, (error, result) => {
     if (error)
       console.log("error from controller", error)
@@ -367,10 +436,10 @@ getallSubcat:(req, res) => {
 },
 
 getSubcat:(req, res) => {
-  subCatId = req.params.id
-  console.log("subCatId", subCatId)
+  catId = req.params.id
+  console.log("catId", catId)
 
-  model.getSubcat(subCatId,(error, result) => {
+  model.getSubcat(catId,(error, result) => {
   if (error)
     console.log("error from controller", error)
   else {
@@ -394,6 +463,58 @@ addCat: (req, res) => {
   })
 },
 
+addOrder: (req, res) => {
+  // const data = [req.body.userId,JSON.stringify(req.body.cartId)]
+  
+  console.log ("addOrder", req.body.cartId)
+  req.body.cartId.map( (cartId,index) => {
+    const data = [req.body.userId,cartId,req.body.shopId[index]]
+  model.addOrder(data, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else 
+      console.log("error from controller", error)
+    // res.send(result)
+  })
+})
+},
+
+getorders: (req, res) => {
+  var id = req.params.id
+  model.getorders(id, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
+getShopOrders: (req, res) => {
+  var id = req.params.id
+  model.getShopOrders(id, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
+
+getBuyer: (req, res) => {
+  var id = req.params.id
+  console.log("shopId:::::::::::", id)
+  model.getBuyer(id, (error, result) => {
+    if (error)
+      console.log("error from controller", error)
+    else {
+      console.log("error from controller", error)
+    }
+    res.send(result)
+  })
+},
 
 addSubCat: (req, res) => {
   console.log ("daaaaaaaaaata",req.body) 
@@ -406,6 +527,27 @@ addSubCat: (req, res) => {
       console.log("error from controller", error)
     }
     res.send(result)
+  })
+},
+
+purchase: (req, res) => {
+  const user =req.body.userId
+  const price =req.body.price
+  const id = req.params.id
+  const URL = [req.get('host'), req.protocol]
+ 
+  console.log ("user",user)
+  console.log ("id",id)
+  console.log ("price",price)
+
+  model.purchase(id,user, price, (error, result) => {
+    
+    if (error)
+        res.status(500).send({
+          message:
+            error.message || "Some error occurred while Purchaseing."
+        });
+      else res.send(result);
   })
 },
 

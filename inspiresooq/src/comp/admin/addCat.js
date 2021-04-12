@@ -69,9 +69,9 @@ class AddCat extends React.Component {
             contentType: "application/json",
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             success: function (data) {
+                // window.location = '/admin/categories'
                 console.log("dataaaa:", data)
-                that.setState({ products: data })
-                that.setState({ formType: false })
+                 window.location = '/admin/categories'
             },
             error: function (err) {
                 console.log("err", err)
@@ -86,7 +86,7 @@ class AddCat extends React.Component {
         return (
             <div>
                 <Nav/>
-                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} onClick={() => this.storeInfo()} > Welcome to admin panel </h1>
+                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
 
                 <form style={{ marginTop: "8%", marginLeft: "30%", width: "40%" }} className="FORM">
                     <div className="form-group">

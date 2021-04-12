@@ -37,6 +37,16 @@ router.get("/shop/:id",authenticateToken, controller.shopDetails);
 
 router.get("/categories", controller.getCategories);
 
+router.get("/categories/:id", controller.getOneCategory);
+
+router.put("/categories/:id", controller.editCategory);
+
+router.get("/subcategorie/:id", controller.getOneSubcat);
+
+router.put("/subcategories/:id", controller.editSubcat);
+
+router.delete("/subcategories/:id/:type", controller.delete);
+
 router.get("/usertype/:id", controller.getUserType);
 
 router.post("/pwdverification", controller.getOTP);
@@ -57,7 +67,19 @@ router.get("/subcategories/:id",controller.getSubcat);
 
 router.post("/admin/addcat",controller.addCat);
 
+router.post("/addorder",controller.addOrder);
+
+router.get("/orders/:id",controller.getorders);
+
+router.get("/shop/orders/:id",controller.getShopOrders);
+
+router.get("/buyer/:id",controller.getBuyer);
+
 router.post("/admin/addsubcat",controller.addSubCat);
+
+router.post("/purchase/:id",controller.purchase);
+
+
 
 
 

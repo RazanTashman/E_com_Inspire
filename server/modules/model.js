@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const dotenv = require('dotenv');
 dotenv.config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 module.exports = {
   registration: async (user, shop, otp, callback) => {
     var output = {}
@@ -168,13 +170,13 @@ module.exports = {
     con.query(myQuery1, async (error, result1) => {
       console.log("result", result1)
       var shopId = result1[0].shopId
-    var myQuery = ` SELECT * FROM products  INNER JOIN categories ON  products.catId = categories.catId WHERE shopId = ${shopId} ORDER BY productId DESC `
+      var myQuery = ` SELECT * FROM products  INNER JOIN categories ON  products.catId = categories.catId WHERE shopId = ${shopId} ORDER BY productId DESC `
 
-    con.query(myQuery, async (error, result) => {
-      // console.log("image:::", result)
-      callback(error, result)
+      con.query(myQuery, async (error, result) => {
+        // console.log("image:::", result)
+        callback(error, result)
+      })
     })
-  })
     // var myQuery = await `SELECT shopId FROM shops WHERE userId = ${id} `
     // con.query(myQuery, async (error, result) => {
 
@@ -233,7 +235,7 @@ module.exports = {
 
   getOneProduct: async (id, callback) => {
     var myQuery = await `SELECT * FROM products  INNER JOIN categories ON  products.catId = categories.catId INNER JOIN subcat ON  products.subcatId = subcat.subCatId WHERE productId = ${id}`
-   
+
     // var myQuery =`SELECT * FROM gradeb INNER JOIN student ON student.studentId = grade.fk_studentId INNER JOIN exam ON exam.examId = grade.fk_examId ORDER BY exam.date`
     // var myQuery = await ` SELECT * FROM products WHERE productId = ${id}`
     con.query(myQuery, (error, result) => {
@@ -255,6 +257,63 @@ module.exports = {
     var myQuery = await ` SELECT * FROM categories`
     con.query(myQuery, (error, result) => {
       callback(error, result)
+    })
+  },
+
+  getOneCategory: async (id, callback) => {
+    var myQuery = await ` SELECT * FROM categories WHERE catId = ${id}`
+    con.query(myQuery, (error, result) => {
+      callback(error, result)
+    })
+  },
+
+
+  editCategory: async (data, id, callback) => {
+    console.log("data:", data)
+    console.log("id:", id)
+    var myQuery = await ` UPDATE  categories SET category = ?, catImage = ? WHERE catId = ${id}`
+    con.query(myQuery, data, (error, result) => {
+      console.log("result:", result)
+      callback(error, result)
+    })
+  },
+
+  getOneSubcat: async (id, callback) => {
+    // var myQuery = await ` SELECT * FROM subcat WHERE subCatId = ${id}`
+    var myQuery = await ` SELECT * FROM subcat INNER JOIN categories ON subcat.catId = categories.catId WHERE subCatId = ${id}`
+    con.query(myQuery, (error, result) => {
+      callback(error, result)
+    })
+  },
+
+  editSubcat: async (data, id, callback) => {
+    console.log("data:", data)
+    console.log("id:", id)
+    var myQuery = await ` UPDATE  subcat SET subCat = ?, catId = ?, subcatImage = ? WHERE subCatId = ${id}`
+    con.query(myQuery, data, (error, result) => {
+      console.log("result:", result)
+      callback(error, result)
+    })
+  },
+
+  delete: async (id, type, callback) => {
+    var output = {}
+    var myQuery = await ` DELETE  FROM subcat WHERE subCatId = ${id}`
+    if (type === "categories")
+      var myQuery = await ` DELETE  FROM categories WHERE catId = ${id}`
+    con.query(myQuery, async (error, result) => {
+      var myQuery1 = await ` SELECT * FROM categories`
+      con.query(myQuery1, (error, result1) => {
+        console.log("result1............", result1)
+        output.categories = result1
+        var myQuery2 = `SELECT * FROM subcat`
+        con.query(myQuery2, (error, result2) => {
+          console.log("result2............", result2)
+          console.log("............", result)
+          output.subcat = result2
+          callback(error, output)
+        })
+      })
     })
   },
 
@@ -282,7 +341,7 @@ module.exports = {
   },
 
   addToCart: async (data, callback) => {
-    var myQuery = await "INSERT INTO cart (userId,productId) VALUES (?,?) "
+    var myQuery = await "INSERT INTO cart (userId,productId,total) VALUES (?,?,?) "
     con.query(myQuery, data, (error, result) => {
       console.log("result", result)
       callback(error, result)
@@ -293,7 +352,7 @@ module.exports = {
   getCart: async (id, callback) => {
     var myQuery = await `SELECT * FROM products  INNER JOIN cart ON  products.productId = cart.productId WHERE userId = ${id} ORDER BY cartId DESC`
     con.query(myQuery, (error, result) => {
-      console.log("result", result)
+      // console.log("result", result)
       callback(error, result)
       // output.insertId = 0
     })
@@ -326,11 +385,11 @@ module.exports = {
   },
 
   editProduct: async (data, id, callback) => {
-    console.log("data:",data)
-    console.log("id:",id)
+    console.log("data:", data)
+    console.log("id:", id)
     var myQuery = await ` UPDATE  products SET productName = ?, price = ?, catId = ?, subcatId = ?, description = ?, image = ? WHERE productId = ${id}`
     con.query(myQuery, data, (error, result) => {
-      console.log("result:",result)
+      console.log("result:", result)
       callback(error, result)
     })
   },
@@ -362,38 +421,126 @@ module.exports = {
   },
 
   getallSubcat: (callback) => {
-      var myQuery = `SELECT * FROM subcat`
-      con.query(myQuery, (error, result) => {
-        console.log("............", result)
-        callback(error, result)
-      })
+    var myQuery = `SELECT * FROM subcat`
+    con.query(myQuery, (error, result) => {
+      console.log("............", result)
+      callback(error, result)
+    })
   },
 
   getSubcat: (id, callback) => {
     // var myQuery1 = `SELECT catId FROM categories WHERE category = ${ JSON.stringify(id) } `
     // con.query(myQuery1, (error, result1) => {
-      // console.log("result1", result1)
-      var myQuery = `SELECT * FROM subcat WHERE catId = ${id} `
-      con.query(myQuery, (error, result) => {
-        console.log("............", result)
-        callback(error, result)
-      })
+    // console.log("result1", result1)
+    var myQuery = `SELECT * FROM subcat WHERE catId = ${id} `
+    con.query(myQuery, (error, result) => {
+      console.log("............", result)
+      callback(error, result)
+    })
     // })
   },
 
 
 
   addCat: async (data, callback) => {
-    var myQuery = `INSERT INTO categories (category, image) VALUES (?,?) `
+    var myQuery = `INSERT INTO categories (category, catImage) VALUES (?,?) `
     con.query(myQuery, data, (error, result) => {
       console.log("............", result)
       callback(error, result)
     })
   },
 
+  addOrder: async (data, callback) => {
+    console.log("data............", data)
+    var myQuery = `INSERT INTO orders (userId, cartId,shopId) VALUES (?,?,?) `
+    con.query(myQuery, data, (error, result) => {
+      console.log("addOrder............", result)
+      // callback(error, result)
+    })
+  },
+
+
+
+  getorders: async (id, callback) => {
+    // console.log("id:", id)
+    var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId WHERE orders.userId = ${id} ORDER BY  orders.orderId DESC`
+    con.query(myQuery, (error, result) => {
+      // console.log("id:", result)
+      callback(error, result)
+    })
+
+  },
+
+
+  getShopOrders: async (id, callback) => {
+    console.log("id:", id)
+    // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE order.shopId = ${id} ORDER BY  orders.orderId DESC`
+    var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE orders.shopId IN ( SELECT shopId FROM shops WHERE userId = ${id}) ORDER BY  orders.orderId DESC`
+
+
+    con.query(myQuery, (error, result) => {
+      // console.log("id:", result)
+      callback(error, result)
+    })
+
+  },
+
+
+  getBuyer: async (shopId, callback) => {
+    console.log("shopId:", shopId)
+    var myQuery = await `SELECT * FROM orders  INNER JOIN users ON  orders.userId = users.userId WHERE shopId = ${shopId} ORDER BY  orders.orderId DESC`
+    con.query(myQuery, (error, result) => {
+      console.log("result:", result)
+      callback(error, result)
+    })
+
+  },
+
+
+  //   getorders: async (id, callback) => {
+  //     var orders = []
+  //     var order = [];
+
+  //     console.log("id:", id)
+
+  //     // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId WHERE orders.userId = ${id} ORDER BY  orders.cartId DESC`
+  //     var myQuery = await `SELECT cartId FROM orders WHERE userId = ${id}`
+  //     con.query(myQuery,   (error, result) => {
+
+  //       console.log("result.......////", result)
+  //       result.map( (elements) => {
+
+  //         console.log("elements:::::", elements.cartId)
+  //        JSON.parse( elements.cartId).map(async(cartId) => {
+  //         orders =[]
+  //         console.log("cartId.......", cartId)
+  //           var myQuery1 = await ` SELECT * FROM cart  INNER JOIN products ON  products.productId = cart.productId WHERE cartId = ${cartId} `
+  //           // var myQuery1 = ` SELECT * FROM cart  WHERE cartId = ${cartId} `
+  //           con.query(myQuery1, (error, result1) => {
+  //             // console.log("result1", result1)
+  //           //  order.push(result1)
+  //           //  console.log("order:::::", order) 
+  //           //  orders.push("order")
+  //            callback(error, result1)
+
+
+  //       })
+
+  //       // console.log("orderssss:::::", orders)
+
+  //     })
+
+
+  //   })
+
+
+  // })
+
+  //   },
+
   addSubCat: async (data, callback) => {
     console.log("........data[0]", data[0])
-    var myQuery1 = await `SELECT * FROM categories WHERE category = ${JSON.stringify(data[0])}`
+    var myQuery1 = await `SELECT * FROM categories WHERE catId = ${(data[0])}`
     con.query(myQuery1, (error, result1) => {
       console.log("........result1", result1)
       data[0] = result1[0].catId
@@ -404,6 +551,51 @@ module.exports = {
 
       })
     })
+  },
+
+  purchase: async (id, userId, price, callback) => {
+    console.log("URL",`http://localhost:3000/orders/${userId}`)
+    var userQuery = await `SELECT * FROM users WHERE userId = ${userId}`
+    con.query(userQuery, async (error, user) => {
+      // console.log("user",user[0].customer_email)
+      
+      
+    var myQuery = await `SELECT * FROM products WHERE productId = ${id}`
+    con.query(myQuery, async (error, item) => {
+      // console.log("session::::productName",item[0].productName)
+      // console.log("session::::description",item[0].description)
+      // console.log("session::::image",item[0].image)
+      // console.log("session::::price",item[0].price * 100)
+      // console.log("session::::id",id)
+
+      // 2) Create checkout session
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        // success_url: `${URL[1]}://${URL[0]}/orders/${userId}`,
+        success_url: `http://localhost:3000/orders/${userId}`,
+        cancel_url: `http://localhost:3000/orders/${userId}`,
+        customer_email: user[0].email,
+        client_reference_id: id,
+        line_items: [
+          {
+            name: item[0].productName,
+            description: item[0].description,
+            images: [item[0].image],
+            amount: price * 100,
+            currency: 'usd',
+            quantity: 3
+          }
+        ]
+      });
+
+      
+
+      callback(error, session)
+    });
+
+
+    })
+
   },
 
 

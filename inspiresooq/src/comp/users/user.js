@@ -28,7 +28,7 @@ class User extends React.Component {
                 data.map(singleCart => that.state.cart.push(singleCart.productId))
 
                 that.setState({ cart: that.state.cart })
-                // console.log("cart::",data.map(singleCart => that.state.cart.push(singleCart.productId ) ))
+                console.log("cart::",data.map(singleCart => that.state.cart.push(singleCart.productId ) ))
             },
             error: function (err) {
                 console.log("err", err)

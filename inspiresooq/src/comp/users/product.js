@@ -12,9 +12,11 @@ class Product extends React.Component {
             price: "",
             description: "",
             categories: "",
+            productId:"",
             image: null,
             redirect: false,
-            shopId:""
+            shopId:"",
+            cart:[]
             
 
         }
@@ -22,6 +24,22 @@ class Product extends React.Component {
 
     componentDidMount() {
         let that = this
+        $.ajax({
+            method: 'GET',
+            url: `http://localhost:5000/cart/${localStorage.getItem("id")}`,
+            contentType: "application/json",
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            success: function (data) {
+                console.log("datadata", data)
+                // data.map(singleCart => that.state.cart.push(singleCart.productId))
+                console.log("cart::",data.map(singleCart => that.state.cart.push(singleCart.productId ) ))
+                that.setState({ cart: that.state.cart })
+            },
+            error: function (err) {
+                console.log("err", err)
+                that.setState({ emailError: err.responseText })
+            }
+        })
         $.ajax({
             method: 'GET',
             url: `http://localhost:5000/product/${localStorage.getItem("productId")}`,
@@ -33,6 +51,7 @@ class Product extends React.Component {
                     price: data[0].price,
                     description: data[0].description,
                     categories: data[0].categories,
+                    productId:  data[0].productId, 
                     image: data[0].image,
                     shopeName: data[0].shopeName,
                     shopId: data[0].shopId
@@ -53,9 +72,13 @@ class Product extends React.Component {
       }
 
     cart(){
+        var but = document.getElementById("BUTT")
+        but.style.color = "gray"
+        but.style.background="rgb(241, 237, 237)"
+        but.style.cursor = "auto"
         var data ={
             userId: localStorage.getItem("id"),
-            productId: localStorage.getItem("productId"),
+            productId:this.state.productId,
             price: this.state.price
         }
         var that = this
@@ -125,7 +148,16 @@ class Product extends React.Component {
                                 <br />
                                 <h2 style={{ color: "gray", fontSize: "22px" }}> <b style={{ color: "rgb(92, 91, 91)" }} ></b>{this.state.price} $</h2>
                                <div>
-                                <button style ={buttons} onClick={() => this.cart()}>Add To Cart</button>
+                               {console.log("this.state.productId", this.state.productId)}
+                                     {console.log("listed", this.state.cart)}
+                                     {console.log(this.state.cart.includes(this.state.productId))}
+                               {(!this.state.cart.includes(this.state.productId)) ?
+                                                <p><button  type="button" id="BUTT" className ="cartButt" onClick={() => this.cart(this.state.productId)} >Add to Cart</button></p>
+                                                :
+                                                <p><button  type="button" disabled style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "gray", cursor: "auto" }} className ="cartButt" >Add to Cart</button></p>
+
+                                            }
+                                {/* <button style ={buttons} onClick={() => this.cart()}>Add To Cart</button> */}
                                 {this.renderRedirect()}
                                 <button style ={buttons} onClick = { () => this.store()}>Visit Store</button>
                                 </div>

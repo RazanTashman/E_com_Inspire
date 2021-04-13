@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import $ from "jquery"
+import card from "../../images/credit-card.png"
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe('pk_test_51I2EmfHMNxPi9ODU4HqB24duE4tbZs2cADjQyb8USqqeSeN2IWQPtUXXiAqkfuE6zucT57qClhLZiSpPCAbT35Q900Y8rcf3aF');
@@ -23,7 +24,11 @@ function CheckoutForm(props) {
                         method: 'POST',
                         url: `http://localhost:5000/purchase/${props.productIds}`,
                         contentType: "application/json",
-                        data: JSON.stringify({price :props.price ,userId: localStorage.getItem("id")}),
+                        data: JSON.stringify({
+                            price :props.price,
+                            userId: localStorage.getItem("id"),
+                            qty: props.qty,
+                        }),
                         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
                         success:async function (session) {
                             console.log("data",session.id)
@@ -50,9 +55,27 @@ function CheckoutForm(props) {
 
   };
 
+  const buttons={
+    border: "none",
+    // outline: "0",
+    padding: "8px",
+    color:" white",
+    // background: "#afacec",
+    background: "black",
+    // marginLeft: "2px",
+    cursor: "pointer",
+    // width: "120px",
+    width: "70%",
+    fontSize: "18px",
+    height: "60px"
+}
+
   return (
-    <button role="link" onClick={handleClick}>
-      Checkout
+    <button role="link" 
+    style ={buttons}
+    onClick={handleClick}>
+        <img src ={card}  style ={{width : "20%" , height: "110%", padding: "6px",}}/>
+         buy For ${props.price}
     </button>
   );
 }

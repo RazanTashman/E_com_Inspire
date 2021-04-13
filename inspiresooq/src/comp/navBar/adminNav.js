@@ -38,25 +38,85 @@ function AdminNav() {
   )
 
   return (
-
-
-
     <div  >
-      <nav style={mystyle} className=" navbar  fixed-top ">
-        {/* <nav  className="navbar navbar-inverse  "> */}
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <a style={{ marginLeft: "0px", marginTop: "18%", fontWeight: 'bold', color: "white", fontSize: "15px" }} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
-          </div>
-          {/* <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" >Welcome to admin panel</a> */}
-          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/categories" > Categories  </a>
-          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/addcategories" > Add Category   </a>
-          <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/addsubcategories" > Add Subcategory   </a>
-          <a style={{ color: "white", marginRight: "1%", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" onClick={() => { localStorage.removeItem('token') }}>Sign Out</a>
+      <nav style={mystyle} class="navbar navbar-expand-md navbar-dark fixed-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/categories" > Categories  </a>
+            </li>
+            <li class="nav-item">
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/addcategories" > Add Category   </a>
+            </li>
+            <li class="nav-item">
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/addsubcategories" > Add Subcategory   </a>
+            </li>
+          </ul>
+          <ul class="navbar-right">
+            <li >
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/login" onClick={() => { localStorage.removeItem('token') }}> <span style={{ paddingRight: "5px" }} class="glyphicon glyphicon-user"></span>Sign Out</a>
+            </li>
+          </ul>
         </div>
       </nav>
 
-    </div>
+      {/* 
+
+      <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>    
+    </ul>
+  </div>  
+</nav> */}
+
+
+
+      {/* <nav>
+        <a class="navbar-brand" href="#home">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#about">About <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#history"> History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#experience">Experience</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#project">My Work</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#footer">Contact</a>
+            </li>
+          </ul>
+
+		</div>
+      </nav> */}
+
+
+
+    </div >
 
   );
 }
@@ -83,7 +143,19 @@ export default AdminNav
 
 
 
-
+// <nav style={mystyle} className=" navbar  fixed-top ">
+// {/* <nav  className="navbar navbar-inverse  "> */}
+// <div className="container-fluid">
+//   <div className="navbar-header">
+//     <a style={{ marginLeft: "0px", marginTop: "18%", fontWeight: 'bold', color: "white", fontSize: "15px" }} className="active navbar-brand" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
+//   </div>
+//   {/* <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" >Welcome to admin panel</a> */}
+//   <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/categories" > Categories  </a>
+//   <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/addcategories" > Add Category   </a>
+//   <a style={{ color: "white", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/admin/addsubcategories" > Add Subcategory   </a>
+//   <a style={{ color: "white", marginRight: "1%", fontWeight: 'bold', fontSize: "15px" }} className="active navbar-brand" href="/login" onClick={() => { localStorage.removeItem('token') }}>Sign Out</a>
+// </div>
+// </nav>
 
 
 

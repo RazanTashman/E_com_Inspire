@@ -531,16 +531,19 @@ addSubCat: (req, res) => {
 },
 
 purchase: (req, res) => {
-  const user =req.body.userId
-  const price =req.body.price
+
   const id = req.params.id
+ const data ={
+   userId : req.body.userId,
+   price : req.body.price,
+   qty :  req.body.qty,
+ }
+  
   const URL = [req.get('host'), req.protocol]
  
-  console.log ("user",user)
-  console.log ("id",id)
-  console.log ("price",price)
+  console.log ("data",data)
 
-  model.purchase(id,user, price, (error, result) => {
+  model.purchase(id,data, (error, result) => {
     
     if (error)
         res.status(500).send({

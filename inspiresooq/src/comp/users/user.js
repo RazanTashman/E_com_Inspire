@@ -150,7 +150,6 @@ class User extends React.Component {
             contentType: "application/json",
             success: function (data) {
                 console.log("dataaaa:", data)
-
             },
             error: function (err) {
                 console.log("err", err)

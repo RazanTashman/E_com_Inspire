@@ -553,9 +553,9 @@ module.exports = {
     })
   },
 
-  purchase: async (id, userId, price, callback) => {
-    console.log("URL",`http://localhost:3000/orders/${userId}`)
-    var userQuery = await `SELECT * FROM users WHERE userId = ${userId}`
+  purchase: async (id, data, callback) => {
+    console.log("URL",`http://localhost:3000/orders/${data.userId}`)
+    var userQuery = await `SELECT * FROM users WHERE userId = ${data.userId}`
     con.query(userQuery, async (error, user) => {
       // console.log("user",user[0].customer_email)
       
@@ -569,11 +569,28 @@ module.exports = {
       // console.log("session::::id",id)
 
       // 2) Create checkout session
+      // const subscription = await stripe.subscriptions.create({
+      //   customer: "cus_JHwr0zYGGfqdUZ",
+      //   // coupon: 'free-period',
+      //   // default_tax_rates: ['txr_1EO66sClCIKljWvs98IiVfHW'],
+      //   trial_end: 1610403705,
+      //   items: [
+      //     {
+      //       price: 'price_CBXbz9i7AIOTzr',
+      //     },
+      //     {
+      //       price: 'price_IFuCu48Snc02bc',
+      //       quantity: 2,
+      //     },
+      //   ],
+      // });
+         callback(error, subscription)
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        // success_url: `${URL[1]}://${URL[0]}/orders/${userId}`,
-        success_url: `http://localhost:3000/orders/${userId}`,
-        cancel_url: `http://localhost:3000/orders/${userId}`,
+        // success_url: `${URL[1]}://${URL[0]}/orders/${data.userId}`,
+        success_url: `http://localhost:3000/orders/${data.userId}`,
+        cancel_url: `http://localhost:3000/orders/${data.userId}`,
         customer_email: user[0].email,
         client_reference_id: id,
         line_items: [
@@ -581,16 +598,17 @@ module.exports = {
             name: item[0].productName,
             description: item[0].description,
             images: [item[0].image],
-            amount: price * 100,
+            amount: item[0].price * 100,
             currency: 'usd',
-            quantity: 3
+            quantity: data.qty
           }
         ]
       });
-
-      
-
       callback(error, session)
+
+   
+      
+      
     });
 
 

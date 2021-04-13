@@ -117,7 +117,7 @@ class Product extends React.Component {
             outline: "0",
             padding: "12px",
             color:" white",
-            background: "#afacec",
+            background: "#6A1B4D",
             marginLeft: "2px",
             marginTop: "15%",
             // text-align: "center",

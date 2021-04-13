@@ -13,19 +13,22 @@ import AddSubCat from "./comp/admin/addSubCat"
 import EditCat from "./comp/admin/editCat"
 import EditSubCat from "./comp/admin/editSubcat"
 import Orders from "./comp/users/orders"
+import OrdersList from './comp/shops/ordersList';
+import HomeAuth from './comp/auth/home';
 
 import './App.css';
 
 
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import OrdersList from './comp/shops/ordersList';
+
 
 function App() {
   return (
     <div className="App">
-  
+
       <BrowserRouter>
         <Switch>
+          <Route path='/vv' component={HomeAuth}></Route>
           <Route path='/signup' component={SignUp}></Route>
           <Route path='/login' component={LogIn}></Route>
           <Route path='/home' component={Home}></Route>

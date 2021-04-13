@@ -127,7 +127,8 @@ class EditSubcat extends React.Component {
         return (
             <div>
                 <Nav />
-                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
+                {/* 645deb */}
+                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#6A1B4D", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
                 <form style={{ marginTop: "8%", marginLeft: "30%", width: "40%" }} className="FORM">
                     <div className="form-group">
                         <input style={{ height: "35px" }} value ={this.state.subcat} type="text" className="form-control" placeholder="Subcategory Name" name="subcat" required="required" onChange={(e) => this.getTheInfo(e)} />

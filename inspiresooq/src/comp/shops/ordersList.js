@@ -67,7 +67,8 @@ class OrdersList extends React.Component {
       <div>
         <Nav/>
         <table className="table" style={{ marginTop:"7%", width: "90%", marginLeft: "1%" }}>
-          <thead style={{ background: "#rgb(241, 241, 241)", color: "#817ce9" }}>
+        {/* 817ce9 */}
+          <thead style={{ background: "#rgb(241, 241, 241)", color: "#6A1B4D" }}>
             <tr>
               <th scope="col" style={{ width: "2%" }}>#</th>
               <th scope="col">Buyer Name</th>
@@ -83,7 +84,8 @@ class OrdersList extends React.Component {
             {this.state.orders.map((order,index) => {
               return (
                 <tr >
-                  <th style={{ color: "#817ce9" }} scope="row">{index+1}</th>
+                  {/* 817ce9 */}
+                  <th style={{ color: "#6A1B4D" }} scope="row">{index+1}</th>
                  { console.log("this.state.buyers[index].firstName",this.state.fName)}
                   {/* <td>{this.state.buyers[index].firstName} {this.state.buyers[index].lastName}</td> */}
                   <td>{this.state.fName[index]} {this.state.lName[index]}</td>

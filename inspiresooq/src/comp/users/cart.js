@@ -204,8 +204,8 @@ class Cart extends React.Component {
         const buttons = {
             padding: "5px",
             cursor: "pointer",
-            width: "8%",
-            height: "8%",
+            width: "15%",
+            height: "9%",
         }
         return (
             <div>
@@ -275,7 +275,9 @@ class Cart extends React.Component {
                 })
                 }
                 {/* <div className ="fixed-bottom" style ={{color:"white",padding:"10px" ,marginRight:"10%", background:"gray"}} > */}
-                <h1 className="fixed-bottom" style={{ border: "1px solid #ccc", borderRadius: "15px", color: "white", padding: "10px", marginLeft: "86%", width: "9%", background: "#817ce9" }}>{this.state.total}</h1>
+            
+             {/* 817ce9 */}
+                <h1 className="fixed-bottom" style={{ border: "1px solid #ccc", borderRadius: "15px", color: "white", padding: "10px", marginLeft: "86%", width: "9%", background: "#8f1e65" }}>{this.state.total}</h1>
                 {/* </div> */}
 
 

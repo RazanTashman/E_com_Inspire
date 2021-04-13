@@ -1,6 +1,7 @@
 import React from "react"
 import $ from "jquery"
 import { Redirect } from 'react-router-dom'
+import Nav from '../navBar/unauthNavbar'
 class OTP extends React.Component {
     constructor(props) {
         super(props)
@@ -115,6 +116,7 @@ class OTP extends React.Component {
     render() {
         return (
             <div>
+                 <Nav/>
                 <form className="FORM">
                     <h5> please check yor email for OTP</h5>
                     <div className="form-group">

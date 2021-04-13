@@ -251,7 +251,8 @@ class User extends React.Component {
                                             </div>
                                             {/* {console.log("listed", this.state.cart)} */}
                                             {!(this.state.cart.includes(product.productId)) ?
-                                                <p><button type="button" id={index} style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "#645deb" }} onClick={() => this.cart(product.productId, index)} >Add to Cart</button></p>
+                                            // 645deb
+                                                <p><button type="button" id={index} style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "#c91886" }} onClick={() => this.cart(product.productId, index)} >Add to Cart</button></p>
                                                 :
                                                 <p><button type="button" disabled style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "gray", cursor: "auto" }}  >Add to Cart</button></p>
 

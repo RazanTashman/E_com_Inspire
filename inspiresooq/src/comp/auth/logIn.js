@@ -1,5 +1,6 @@
 import React from "react"
 import $ from "jquery"
+import Nav from '../navBar/unauthNavbar'
 class login extends React.Component {
   constructor() {
     super()
@@ -76,6 +77,7 @@ class login extends React.Component {
   render() {
     return (
       <div>
+            <Nav/>
         <form className="FORM" style={{ marginLeft: "25%",marginTop: "12%" ,width:"45%" }}>
           <div class="form-group">
             <br /><br />

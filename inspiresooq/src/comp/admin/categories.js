@@ -112,10 +112,11 @@ class AddCat extends React.Component {
         return (
             <div>
                 <Nav />
-                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
+                <h1 style={{ width: "100%", marginTop: "3.75%", padding: "0.6%", fontFamily: 'Lobster', color: "#6A1B4D", textAlign: "center", backgroundColor: "#ccc" }} > Welcome to admin panel </h1>
                 <table style={{ marginTop: "5%" }} class="table table-striped">
                     {/* <table className="table" style={{ marginTop: "10%", width: "90%", marginLeft: "3%" }}> */}
-                    <thead style={{ background: "#rgb(241, 241, 241)", color: "#817ce9" }}>
+                    {/* 817ce9 */}
+                    <thead style={{ background: "#rgb(241, 241, 241)", color: "#6A1B4D" }}>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col" style={{ width: "15%" ,alignItems: 'center' }}>Category</th>
@@ -129,7 +130,8 @@ class AddCat extends React.Component {
                             // { this.getSubcats(category.catId)}
                             return (
                                 <tr>
-                                    <th style={{ color: "#817ce9", width: "3%" }} scope="row">{this.count++}</th>
+                                    {/* 817ce9 */}
+                                    <th style={{ color: "#6A1B4D", width: "3%" }} scope="row">{this.count++}</th>
                                     
                                     <td  style={{ width: "3%", textAlign: "center"}}>
                                     <div style={{marginLeft:"30%"}}>

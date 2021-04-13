@@ -88,7 +88,8 @@ class Products extends React.Component {
 
         {this.state.rendering === 2 ?
           <table className="table" style={{ marginTop: "10%", width: "90%", marginLeft: "3%" }}>
-            <thead style={{ background: "#rgb(241, 241, 241)", color: "#817ce9" }}>
+            {/* 817ce9 */}
+            <thead style={{ background: "#rgb(241, 241, 241)", color: "#6A1B4D" }}>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Item</th>
@@ -105,7 +106,8 @@ class Products extends React.Component {
               {this.state.products.map((product) => {
                 return (
                   <tr key={Math.random().toString(36) || ''}>
-                    <th style={{ color: "#817ce9" }}scope="row">{this.count++}</th>
+                    {/* 817ce9 */}
+                    <th style={{ color: "#6A1B4D" }}scope="row">{this.count++}</th>
                     <td>{product.productName}</td>
                     <td>{product.price}</td>
                     <td>{product.description}</td>

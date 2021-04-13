@@ -5,37 +5,13 @@ import cart from "../../images/cart.png"
 // import logo from "./logo.jpg"
 function AdminNav() {
 
-  const [role, setRole] = useState("")
-  const [name, sename] = useState("")
   const mystyle = {
     background: "#6A1B4D",
     // position: 'fixed',
     height: '8%',
     width: '100%',
   };
-
-  var pathname = window.location.pathname === "/home" ? true : false
-
-  useEffect(() => {
-    $.ajax({
-      method: 'GET',
-      url: `http://localhost:5000/usertype/${localStorage.getItem("id")}`,
-      contentType: "application/json",
-      success: function (data) {
-        console.log("naaaaaavvvv:", data[0].firstName)
-        setRole(data[0].type)
-        sename(data[0].firstName)
-
-
-      },
-      error: function (err) {
-        console.log("err", err)
-
-      }
-    })
-  }
-  )
-
+  
   return (
     <div  >
       <nav style={mystyle} class="navbar navbar-expand-md navbar-dark fixed-top">
@@ -45,19 +21,15 @@ function AdminNav() {
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/categories" > Categories  </a>
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/" > Home  </a>
             </li>
             <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/addcategories" > Add Category   </a>
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/login" > Login   </a>
             </li>
             <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/addsubcategories" > Add Subcategory   </a>
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/signup" >Sign Up  </a>
             </li>
-          </ul>
-          <ul class="navbar-right">
-            <li >
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/login" onClick={() => { localStorage.removeItem('token') }}> <span style={{ paddingRight: "5px" }} class="glyphicon glyphicon-user"></span>Sign Out</a>
-            </li>
+
           </ul>
         </div>
       </nav>

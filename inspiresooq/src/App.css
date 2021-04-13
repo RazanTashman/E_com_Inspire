@@ -4,20 +4,24 @@
 
 
 form{
-  background: rgb(241, 241, 241);
+  /* background: rgb(241, 241, 241); */
+  background: rgb(252, 252, 252) ;
+  /* background: #6A1B4D ; */
+  opacity: 0.7;
   width: 80%;
   margin-top:20%;
   margin-left: 10%;
-  border:1px solid #afacec;
+  border:2px solid rgba(0, 0, 0, 0.377);
   padding: 35px;
   border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .butt{
   /* height: 40px; */
-  color: #afacec;
+  color: #6A1B4D;
   background-color: white;
-  border: 2px solid #afacec;
+  border: 2px solid #6A1B4D;
   transition-duration: 0.4s;
   /* border: none; */
   width: 90%;
@@ -25,7 +29,7 @@ form{
 }
 .butt:hover{
   color: white;
-  background-color:#afacec;
+  background-color:#6A1B4D;
   opacity: 0.7;
 }
 th{
@@ -44,6 +48,11 @@ ul{
   margin: 0;
   padding: 0;
 }
+
+.text-box{
+  font-family: 'Baloo 2', cursive;
+}
+
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -140,7 +149,7 @@ border: none;
 outline: 0;
 padding: 12px;
 color: white;
-background: #afacec;
+background: #6A1B4D;
 margin-left: 2px;
 margin-top: 15%;
  /* text-align: center;

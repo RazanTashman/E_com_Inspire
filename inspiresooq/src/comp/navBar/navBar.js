@@ -8,8 +8,8 @@ function Nav() {
   const [role, setRole] = useState("")
   const [name, sename] = useState("")
   const mystyle = {
-    background: "#afacec",
-    // background: "#6A1B4D",
+    // background: "#afacec",
+    background: "#6A1B4D",
     // 383CC1
     // position: 'fixed',
     height: '10%',

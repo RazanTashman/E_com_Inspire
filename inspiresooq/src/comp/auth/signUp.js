@@ -1,6 +1,7 @@
 import React from "react"
 import $ from "jquery"
 import { Redirect } from 'react-router-dom'
+import Nav from '../navBar/unauthNavbar'
 class signUp extends React.Component {
   constructor() {
     super()
@@ -150,7 +151,8 @@ console.log("email:",email)
   render() {
     return (
       <div>
-        <div className="container" >
+        <Nav/>
+        <div className="container" style ={{marginTop: "8%", marginLeft:"5%"}} >
           <div className="row">
             <div className="col-sm-6" style={{ marginTop: "20%", fontSize: "15px", color: "#304f30" }}>
 

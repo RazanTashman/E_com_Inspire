@@ -121,7 +121,9 @@ class Store extends React.Component {
             <div>
                 <Nav />
                 <div>
-                    <h1 style={{ width: "100%", zIndex: "1", position: 'fixed', marginTop: "4.7%", padding: "0.6%", fontFamily: 'Lobster', color: "#645deb", textAlign: "center", backgroundColor: "#ccc" }}  >Welcom to {this.state.shopName} </h1>
+                {/* 645deb */}
+                {/* zIndex: "1", position: 'fixed',  */}
+                    <h1 style={{ width: "100%", marginTop: "-1.5%", padding: "0.6%", fontFamily: 'Lobster', color: "#6A1B4D", textAlign: "center", backgroundColor: "#ccc" }}  >Welcom to {this.state.shopName} </h1>
                 </div>
                 <div className="container" >
                     <div className="row" style={{ marginTop: "14%" }}>
@@ -138,7 +140,8 @@ class Store extends React.Component {
                                             <p>{product.description}</p>
                                         </div>
                                         {!(this.state.cart.includes(product.productId)) ?
-                                                <p><button type="button" id={index} style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "#645deb" }} onClick={() => this.cart(product.productId, index)} >Add to Cart</button></p>
+                                        //  645deb
+                                                <p><button type="button" id={index} style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "#c91886" }} onClick={() => this.cart(product.productId, index)} >Add to Cart</button></p>
                                                 :
                                                 <p><button type="button" disabled style={{ marginBottom: "-4%", backgroundColor: "rgb(241, 237, 237)", color: "gray", cursor: "auto" }}  >Add to Cart</button></p>
 
@@ -152,8 +155,9 @@ class Store extends React.Component {
                     </div>
                 </div>
                 <a href={`tel:0${this.state.phoneNo}`}>
+                {/* 817ce9 */}
                     {/* <a href= "tel:799460706"> */}
-                    <img src={call} className="fixed-bottom" style={{ border: "1px solid #ccc", borderRadius: "40px", color: "white", padding: "10px", marginLeft: "93%", width: "4%", background: "#817ce9" }} />
+                    <img src={call} className="fixed-bottom" style={{ border: "1px solid #ccc", borderRadius: "40px", color: "white", padding: "10px", marginLeft: "93%", width: "4%", background: "#6A1B4D" }} />
                 </a>
             </div>
         )

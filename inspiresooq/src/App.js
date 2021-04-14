@@ -1,5 +1,5 @@
 // import SignUp from './comp/auth/signUp'
-import Home from './comp/shops/home';
+import Peofile from './comp/shops/peofile';
 import LogIn from './comp/auth/logIn';
 import SignUp from './comp/auth/signUp';
 import User from './comp/users/user';
@@ -14,7 +14,7 @@ import EditCat from "./comp/admin/editCat"
 import EditSubCat from "./comp/admin/editSubcat"
 import Orders from "./comp/users/orders"
 import OrdersList from './comp/shops/ordersList';
-import HomeAuth from './comp/auth/home';
+import Home from './comp/auth/home';
 
 import './App.css';
 
@@ -28,10 +28,10 @@ function App() {
 
       <BrowserRouter>
         <Switch>
-          <Route path='/vv' component={HomeAuth}></Route>
+          <Route path='/home' component={Home}></Route>
           <Route path='/signup' component={SignUp}></Route>
           <Route path='/login' component={LogIn}></Route>
-          <Route path='/home' component={Home}></Route>
+          <Route path='/peofile' component={Peofile}></Route>
           <Route path='/user' component={User}></Route>
           <Route path='/product/:id' component={Product}></Route>
           <Route path='/store/:id' component={Store}></Route>

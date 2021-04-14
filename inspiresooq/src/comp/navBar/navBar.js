@@ -17,7 +17,7 @@ function Nav() {
 
   };
 
-  var pathname = window.location.pathname === "/home" ? true : false
+  var pathname = window.location.pathname === "/peofile" ? true : false
 
   useEffect(() => {
     $.ajax({
@@ -43,7 +43,7 @@ function Nav() {
 
 
 
-    <div  >
+    <div  className ="fixed-top" >
       <nav style={mystyle} class="navbar navbar-expand-md navbar-dark" >
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span>
@@ -55,16 +55,16 @@ function Nav() {
             </li>
 
             <li class="nav-item">
-              <a  style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link" href={!pathname ? "/user" : "/home"}>Home <span className="sr-only"></span></a>
+              <a  style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link" href={!pathname ? "/user" : "/peofile"}>Home <span className="sr-only"></span></a>
             </li>
          
             {/* {localStorage.getItem("type") === "shop" &&    */}
             {role === "shop" &&            
               <li class="nav-item">
-                <li style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className=" dropdown "><a className="dropdown-toggle text-white nav-link" data-toggle="dropdown" href="/home"> Swich account to</a>
+                <li style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className=" dropdown "><a className="dropdown-toggle text-white nav-link" data-toggle="dropdown" href="/peofile"> Swich account to</a>
                   <ul className="dropdown-menu">
                     <li><a   style={{ fontSize: "15px" }}   href="/user">User</a></li>
-                    <li><a   style={{ fontSize: "15px" }}   href="/home">Shop</a></li>
+                    <li><a   style={{ fontSize: "15px" }}   href="/peofile">Shop</a></li>
                   </ul>
                 </li>
               </li>
@@ -100,6 +100,26 @@ function Nav() {
         </div>
       </nav>
 
+
+      {/* <nav class="navbar fixed-top navbar-expand navbar-light bg-light">
+    <ul class="navbar-nav">
+        <li class="nav-item-active">
+            <a class="nav-link" href="#/">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#/product">Products</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#/services">Services</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#/career">Career</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#/contact">Contact Us</a>
+        </li>
+    </ul>
+</nav> */}
 {/* 
 
       <nav style={mystyle} class="navbar navbar-expand-md navbar-dark">

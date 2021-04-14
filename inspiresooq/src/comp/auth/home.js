@@ -1,5 +1,5 @@
 import Nav from "../navBar/unauthNavbar"
-function HomeAuth() {
+function Home() {
   return (
     <div  >
     <Nav/>
@@ -16,4 +16,4 @@ function HomeAuth() {
   );
 }
 
-export default HomeAuth
+export default Home

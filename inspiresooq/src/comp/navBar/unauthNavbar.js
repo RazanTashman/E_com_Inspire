@@ -21,7 +21,7 @@ function AdminNav() {
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/" > Home  </a>
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/home" > Home  </a>
             </li>
             <li class="nav-item">
               <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/login" > Login   </a>

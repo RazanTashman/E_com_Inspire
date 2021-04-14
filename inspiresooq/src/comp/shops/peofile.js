@@ -8,7 +8,7 @@ import AddProduct from './addProduct'
 import "./shops.css"
 import $ from "jquery"
 import Nav from "../navBar/navBar"
-class Home extends React.Component {
+class Peofile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -149,7 +149,7 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Peofile;
 
 {/* <div>c
 <div className= "border border-success rounded" style={{ width: "18rem"}}>

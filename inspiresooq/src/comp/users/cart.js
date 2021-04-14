@@ -209,8 +209,9 @@ class Cart extends React.Component {
         }
         return (
             <div>
+                {/* <div className ="fixed-top"> */}
                 <Nav />
-
+                {/* </div> */}
                 <div style={{ marginTop: "8%" }}></div>
                 {this.state.products.map((product, index) => {
                     return (<div className="container" >

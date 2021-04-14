@@ -564,7 +564,7 @@ module.exports = {
     con.query(myQuery, async (error, item) => {
       // console.log("session::::productName",item[0].productName)
       // console.log("session::::description",item[0].description)
-      // console.log("session::::image",item[0].image)
+      console.log("session::::image",item[0].image)
       // console.log("session::::price",item[0].price * 100)
       // console.log("session::::id",id)
 
@@ -584,7 +584,7 @@ module.exports = {
       //     },
       //   ],
       // });
-         callback(error, subscription)
+        //  callback(error, subscription)
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -597,7 +597,7 @@ module.exports = {
           {
             name: item[0].productName,
             description: item[0].description,
-            images: [item[0].image],
+            images: ["https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"],
             amount: item[0].price * 100,
             currency: 'usd',
             quantity: data.qty

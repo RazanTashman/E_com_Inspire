@@ -14,7 +14,7 @@ function AdminNav() {
     width: '100%',
   };
 
-  var pathname = window.location.pathname === "/home" ? true : false
+  var pathname = window.location.pathname === "/peofile" ? true : false
 
   useEffect(() => {
     $.ajax({

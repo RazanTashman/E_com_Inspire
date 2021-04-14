@@ -58,7 +58,7 @@ class login extends React.Component {
             localStorage.setItem('id', data.data[0].userId)
             // localStorage.setItem('type', data.data[0].type)
             if(data.data[0].type === "shop")
-              window.location = '/home';
+              window.location = '/peofile';
             else if(data.data[0].type === "admin")
               window.location = '/admin/categories';
             else

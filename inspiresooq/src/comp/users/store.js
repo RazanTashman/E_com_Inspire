@@ -123,7 +123,7 @@ class Store extends React.Component {
                 <div>
                 {/* 645deb */}
                 {/* zIndex: "1", position: 'fixed',  */}
-                    <h1 style={{ width: "100%", marginTop: "-1.5%", padding: "0.6%", fontFamily: 'Lobster', color: "#6A1B4D", textAlign: "center", backgroundColor: "#ccc" }}  >Welcom to {this.state.shopName} </h1>
+                    <h1 style={{ width: "100%",  zIndex: "1", position: 'fixed', marginTop: "4.5%", padding: "0.6%", fontFamily: 'Lobster', color: "#6A1B4D", textAlign: "center", backgroundColor: "#ccc" }}  >Welcom to {this.state.shopName} </h1>
                 </div>
                 <div className="container" >
                     <div className="row" style={{ marginTop: "14%" }}>

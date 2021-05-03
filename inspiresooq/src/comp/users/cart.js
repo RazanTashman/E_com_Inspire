@@ -263,7 +263,11 @@ class Cart extends React.Component {
                                 <div className="col-sm-4"  >
                                         <div style={{ marginTop: "110px" }}>
                                             <CheckoutForm
+                                                // onClick ={() => this.purchase}
+                                                cartId= {this.state.order}
+                                                shopId= {this.state.shop}
                                                 productIds={product.productId}
+                                                shopId={product.shopId}
                                                 price={product.total}
                                                 qty={product.qty}
                                             />

@@ -58,7 +58,7 @@ module.exports = {
         var mailOptions = {
           from: 'dawerhajo@gmail.com',
           to: user[0],
-          subject: 'InspireSooq OTP ',
+          subject: 'CaravanSooq OTP ',
           text: `To verify your email address, please use the following One Time Password (OTP):  ${otp} Thank you for shopping with us.`
         };
 
@@ -462,22 +462,36 @@ module.exports = {
 
 
   getorders: async (id, callback) => {
-    // console.log("id:", id)
-    var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId WHERE orders.userId = ${id} ORDER BY  orders.orderId DESC`
+
+    // const orders = await stripe.orders.list();
+    // const orders = stripe.orders.returnOrder("prod_JKWLb1jPPHxdwS")
+    // const paymentIntents = await stripe.paymentIntents.list({
+    //   limit: 5,
+    // });
+    // console.log("paymentIntents:", paymentIntents)
+    // callback("error", paymentIntents)
+
+
+    // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId WHERE orders.userId = ${id} ORDER BY  orders.orderId DESC`
+    var myQuery = await `SELECT * FROM orders where userId = ${id} ORDER BY orderId DESC`
     con.query(myQuery, (error, result) => {
       // console.log("id:", result)
       callback(error, result)
     })
+    // console.log("id:", result)
+
+
 
   },
 
 
   getShopOrders: async (id, callback) => {
-    console.log("id:", id)
-    // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE order.shopId = ${id} ORDER BY  orders.orderId DESC`
-    var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE orders.shopId IN ( SELECT shopId FROM shops WHERE userId = ${id}) ORDER BY  orders.orderId DESC`
+    console.log("id:::", id)
+    // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE orders.shopId = ${id} ORDER BY  orders.orderId DESC`
+    // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE orders.shopId IN ( SELECT shopId FROM shops WHERE userId = ${id}) ORDER BY  orders.orderId DESC`
+    // var myQuery = await `SELECT * FROM orders  INNER JOIN cart ON  orders.cartId = cart.cartId  INNER JOIN products ON  products.productId = cart.productId INNER JOIN shops ON  products.shopId = shops.shopId WHERE orders.shopId = 274 ORDER BY  orders.orderId DESC`
 
-
+    var myQuery = await `SELECT * FROM orders where shopId IN ( SELECT shopId FROM shops WHERE userId = ${id}) ORDER BY orderId DESC`
     con.query(myQuery, (error, result) => {
       // console.log("id:", result)
       callback(error, result)
@@ -554,62 +568,69 @@ module.exports = {
   },
 
   purchase: async (id, data, callback) => {
-    console.log("URL",`http://localhost:3000/orders/${data.userId}`)
+
+    console.log("URL", `http://localhost:3000/orders/${data.userId}`)
     var userQuery = await `SELECT * FROM users WHERE userId = ${data.userId}`
     con.query(userQuery, async (error, user) => {
-      // console.log("user",user[0].customer_email)
-      
-      
-    var myQuery = await `SELECT * FROM products WHERE productId = ${id}`
-    con.query(myQuery, async (error, item) => {
-      // console.log("session::::productName",item[0].productName)
-      // console.log("session::::description",item[0].description)
-      console.log("session::::image",item[0].image)
-      // console.log("session::::price",item[0].price * 100)
-      // console.log("session::::id",id)
+      console.log("user", user)
 
-      // 2) Create checkout session
-      // const subscription = await stripe.subscriptions.create({
-      //   customer: "cus_JHwr0zYGGfqdUZ",
-      //   // coupon: 'free-period',
-      //   // default_tax_rates: ['txr_1EO66sClCIKljWvs98IiVfHW'],
-      //   trial_end: 1610403705,
-      //   items: [
-      //     {
-      //       price: 'price_CBXbz9i7AIOTzr',
-      //     },
-      //     {
-      //       price: 'price_IFuCu48Snc02bc',
-      //       quantity: 2,
-      //     },
-      //   ],
-      // });
-        //  callback(error, subscription)
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        // success_url: `${URL[1]}://${URL[0]}/orders/${data.userId}`,
-        success_url: `http://localhost:3000/orders/${data.userId}`,
-        cancel_url: `http://localhost:3000/orders/${data.userId}`,
-        customer_email: user[0].email,
-        client_reference_id: id,
-        line_items: [
-          {
+      var myQuery = await `SELECT * FROM products WHERE productId = ${id}`
+      con.query(myQuery, async (error, item) => {
+        console.log("session::::image", item[0].image)
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          // success_url: `${URL[1]}://${URL[0]}/orders/${data.userId}`,
+          success_url: `http://localhost:3000/orders/${data.userId}`,
+          cancel_url: `http://localhost:3000/cart`,
+          customer_email: user[0].email,
+          client_reference_id: id,
+          line_items: [
+            {
+              name: item[0].productName,
+              description: item[0].description,
+              images: ["https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"],
+              amount: item[0].price * 100,
+              currency: 'usd',
+              quantity: data.qty
+            }
+          ]
+        });
+
+        const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
+
+        console.log("session:::::::::", paymentIntent);
+        callback(error, session)
+
+        var order = [
+          data.userId,
+          data.shopId,
+          paymentIntent.client_secret,
+          JSON.stringify({
             name: item[0].productName,
             description: item[0].description,
-            images: ["https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"],
+            images: item[0].image,
             amount: item[0].price * 100,
-            currency: 'usd',
             quantity: data.qty
-          }
+          })
         ]
-      });
-      callback(error, session)
+        console.log("order:::::::::",order);
+        var myQuery = `INSERT INTO orders (userId, shopId, paymentId, items) VALUES (?, ?, ?, ?) `
+        con.query(myQuery, order, (error, result) => {
+          console.log("addOrder............", result)
+          // callback(error, result)
+        })
+        // const intent = await stripe.paymentIntents.create({
+        //   amount: 1099,
+        //   currency: 'usd',
+        //   payment_method_types: ['card'],
+        // });
+        // console.log("session:::::::::",{client_secret: intent.client_secret});
+        // callback(error, intent.client_secret)
 
-   
-      
-      
-    });
+
+
+
+      });
 
 
     })

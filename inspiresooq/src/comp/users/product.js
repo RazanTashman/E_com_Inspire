@@ -74,7 +74,7 @@ class Product extends React.Component {
     cart(){
         var but = document.getElementById("BUTT")
         but.style.color = "gray"
-        but.style.background="rgb(241, 237, 237)"
+        // but.style.background="rgb(241, 237, 237)"
         but.style.cursor = "auto"
         var data ={
             userId: localStorage.getItem("id"),

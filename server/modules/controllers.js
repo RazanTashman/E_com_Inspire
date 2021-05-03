@@ -537,11 +537,13 @@ purchase: (req, res) => {
    userId : req.body.userId,
    price : req.body.price,
    qty :  req.body.qty,
+   shopId :  req.body.shopId,
  }
   
   const URL = [req.get('host'), req.protocol]
  
   console.log ("data",data)
+  console.log ("id",id)
 
   model.purchase(id,data, (error, result) => {
     

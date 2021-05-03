@@ -1,6 +1,8 @@
 import React from "react"
 import $ from "jquery"
 import Nav from "../navBar/navBar"
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51I2EmfHMNxPi9ODU4HqB24duE4tbZs2cADjQyb8USqqeSeN2IWQPtUXXiAqkfuE6zucT57qClhLZiSpPCAbT35Q900Y8rcf3aF');
 
 class OrdersList extends React.Component {
   constructor(props) {
@@ -14,8 +16,8 @@ class OrdersList extends React.Component {
 
   }
 
-  componentDidMount(props) {
-
+ async componentDidMount(props) {
+    const stripe = await stripePromise;
 
     var that = this
     $.ajax({
@@ -26,28 +28,43 @@ class OrdersList extends React.Component {
       success: function (data) {
         console.log("orders:", data)
         that.setState({ orders: data })
+        data.map((order) => {
+          
+          stripe.retrievePaymentIntent(order.paymentId).then(function(response) {
+          console.log("response",response.paymentIntent.status)
+          if (response.paymentIntent.status === 'succeeded') {
+              // console.log("order.items",order.items)
+              that.state.orders.push(JSON.parse(order.items)) 
+              that.setState({orders:  that.state.orders  })
+              // that.state.orders.push(JSON.parse(order.items))
+              
+            // Handle successful payment here
+          } 
+        });
+      });
 
-        $.ajax({
-          method: 'GET',
-          url: `http://localhost:5000/buyer/${data[0].shopId}`,
-          contentType: "application/json",
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-          success: function (data) {
-            const array1 =[]
-            const array2 =[]
-            console.log("buyers:", data)
-            data.map((buyer) => {
-              array1.push(buyer.firstName)
-              array2.push(buyer.lastName)
-            })
-            that.setState({ fName: array1 })
-            that.setState({ lName: array2 })
-          },
-          error: function (err) {
-            console.log("err", err)
-            that.setState({ emailError: err.responseText })
-          }
-        })
+      // console.log("data[0].shopId::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",data[0].shopId)
+      //   $.ajax({
+      //     method: 'GET',
+      //     url: `http://localhost:5000/buyer/${data[0].shopId}`,
+      //     contentType: "application/json",
+      //     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+      //     success: function (data) {
+      //       const array1 =[]
+      //       const array2 =[]
+      //       console.log("buyers======>>>>", data)
+      //       data.map((buyer) => {
+      //         array1.push(buyer.firstName)
+      //         array2.push(buyer.lastName)
+      //       })
+      //       that.setState({ fName: array1 })
+      //       that.setState({ lName: array2 })
+      //     },
+      //     error: function (err) {
+      //       console.log("err", err)
+      //       that.setState({ emailError: err.responseText })
+      //     }
+      //   })
 
 
       },
@@ -71,7 +88,7 @@ class OrdersList extends React.Component {
           <thead style={{ background: "#rgb(241, 241, 241)", color: "#6A1B4D" }}>
             <tr>
               <th scope="col" style={{ width: "2%" }}>#</th>
-              <th scope="col">Buyer Name</th>
+              {/* <th scope="col">Buyer Name</th> */}
               <th scope="col">Item</th>
               <th scope="col">qty</th>
               <th scope="col">Total</th>
@@ -86,13 +103,13 @@ class OrdersList extends React.Component {
                 <tr >
                   {/* 817ce9 */}
                   <th style={{ color: "#6A1B4D" }} scope="row">{index+1}</th>
-                 { console.log("this.state.buyers[index].firstName",this.state.fName)}
+                 {/* { console.log("this.state.buyers[index].firstName",this.state.fName)} */}
                   {/* <td>{this.state.buyers[index].firstName} {this.state.buyers[index].lastName}</td> */}
-                  <td>{this.state.fName[index]} {this.state.lName[index]}</td>
-                  <td>{order.productName}</td>
-                  <td>{order.qty}</td>
-                  <td>{order.total}</td>
-                  <td>  <img style={{ width: "20%" }} src={order.image} /> </td>
+                  {/* <td>{this.state.fName[index]} {this.state.lName[index]}</td> */}
+                  <td>{order.name}</td>
+                  <td>{order.quantity}</td>
+                  <td>{order.quantity*order.amount/100}</td>
+                  <td>  <img style={{ width: "20%" }} src={order.images} /> </td>
                   {/* <td>
                     <img src={Edit} data-placement="bottom" title="Edit" style={{ cursor: "pointer", width: "10%", margin: "1%" }} className={order.productId} onClick={() => { this.edit(product.productId) }} />
                     <img src={Delete} data-placement="bottom" title="Delete" style={{ cursor: "pointer", width: "10%", margin: "1%" }} className={product.productId} onClick={() => { this.delete(product.productId) }} />

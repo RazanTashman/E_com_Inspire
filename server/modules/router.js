@@ -71,6 +71,8 @@ router.post("/addorder",controller.addOrder);
 
 router.get("/orders/:id",controller.getorders);
 
+// router.get("/v1/payment_intents",controller.getorders);
+
 router.get("/shop/orders/:id",controller.getShopOrders);
 
 router.get("/buyer/:id",controller.getBuyer);

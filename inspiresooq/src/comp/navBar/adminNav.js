@@ -15,6 +15,17 @@ function AdminNav() {
   };
 
   var pathname = window.location.pathname === "/peofile" ? true : false
+  function clicked(target) {
+    console.log("target:",target)
+  //  var x = $("#"+target+"")
+  //  console.log("x:",x)
+  //  x.style.background ="blue"
+   
+    var but = document.getElementById(target+"")
+    console.log("but:",but)
+        but.style.color = "gray"
+        but.style.background="rgb(241, 237, 237)"
+  }
 
   useEffect(() => {
     $.ajax({
@@ -38,25 +49,25 @@ function AdminNav() {
 
   return (
     <div  >
-      <nav style={mystyle} class="navbar navbar-expand-md navbar-dark fixed-top">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-          <span class="navbar-toggler-icon"></span>
+      <nav style={mystyle} className ="navbar navbar-expand-md navbar-dark fixed-top">
+        <button className ="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span className ="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/categories" > Categories  </a>
+        <div className ="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul className ="navbar-nav">
+            <li className ="nav-item">
+              <a id ="Categories" onClick={()=>clicked} style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className ="nav-link  text-white" href="/admin/categories" > Categories  </a>
             </li>
-            <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/addcategories" > Add Category   </a>
+            <li className ="nav-item">
+              <a id ="Category" onClick={()=>clicked} style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className ="nav-link  text-white" href="/admin/addcategories" > Add Category   </a>
             </li>
-            <li class="nav-item">
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/admin/addsubcategories" > Add Subcategory   </a>
+            <li className ="nav-item">
+              <a id ="Subcategory" onClick={()=>clicked} style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className ="nav-link  text-white" href="/admin/addsubcategories" > Add Subcategory   </a>
             </li>
           </ul>
-          <ul class="navbar-right">
+          <ul className ="navbar-right">
             <li >
-              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className="nav-link  text-white" href="/login" onClick={() => { localStorage.removeItem('token') }}> <span style={{ paddingRight: "5px" }} class="glyphicon glyphicon-user"></span>Sign Out</a>
+              <a style={{ color: "white", paddingLeft: "25px", fontSize: "15px" }} className ="nav-link  text-white" href="/login" onClick={() => { localStorage.removeItem('token') }}> <span style={{ paddingRight: "5px" }} className ="glyphicon glyphicon-user"></span>Sign Out</a>
             </li>
           </ul>
         </div>
@@ -64,7 +75,7 @@ function AdminNav() {
 
       {/* 
 
-      <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+      <nav className ="navbar navbar-expand-md bg-dark navbar-dark">
   <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>

@@ -53,6 +53,48 @@ ul{
   font-family: 'Baloo 2', cursive;
 }
 
+/* li a.focus {
+  background-color: #4CAF50;
+  color: white;
+} */
+
+li a:hover{
+  background-color: #5c2146bd;
+  color: white;
+  
+}
+
+
+
+
+
+
+/* 
+
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+   background-color: #666; 
+  float: left;
+  padding: 20px;
+}
+li {
+  float: left;
+  margin-right: 10px;
+}
+
+.navbar-collapse .navbar-nav > li > a,
+.navbar-collapse .navbar-nav > li > a:focus {
+  color: #6ecd6e;
+  font-size: 15.7px;
+  font-weight: 400;
+}
+.navbar-collapse .navbar-nav > li > a:hover {
+  color: #ffb600;
+} */
+
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;

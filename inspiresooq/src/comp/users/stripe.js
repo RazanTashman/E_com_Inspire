@@ -8,6 +8,36 @@ const stripePromise = loadStripe('pk_test_51I2EmfHMNxPi9ODU4HqB24duE4tbZs2cADjQy
 
 function CheckoutForm(props) {
 
+ function addOrder(){
+    var that = this
+    var data = {
+        userId: localStorage.getItem("id"),
+        cartId: props.order,
+        shopId: props.shop,
+    }
+    console.log("purchase", data)
+
+    $.ajax({
+        method: 'POST',
+        data: JSON.stringify(data),
+        url: `http://localhost:5000/addorder`,
+        contentType: "application/json",
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        success: function (data) {
+            for (var i = 0; i < that.state.order.length; i++) {
+                // that.delete(that.state.order[i])
+            }
+
+        },
+        error: function (err) {
+            console.log("err", err)
+            // that.setState({ emailError: err.responseText })
+
+        }
+    })
+
+}
+
 
 //   const [session, setSession] = useState("")
 
@@ -28,20 +58,32 @@ function CheckoutForm(props) {
                             price :props.price,
                             userId: localStorage.getItem("id"),
                             qty: props.qty,
+                            shopId:props.shopId
                         }),
                         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
                         success:async function (session) {
-                            console.log("data",session.id)
+                            console.log("data",session)
                             const result = await stripe.redirectToCheckout({
                                 sessionId: session.id,
                               });
                           
                               if (result.error) {
+                                console.log("error",result.error.message)
                                 // If `redirectToCheckout` fails due to a browser or network
                                 // error, display the localized error message to your customer
                                 // using `result.error.message`.
                               }
 
+                              // addOrder()
+                              
+                              // stripe.retrievePaymentIntent(session).then(function(response) {
+                              //   console.log("response.paymentIntent.status",response)
+                              //   if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
+                              //     // Handle successful payment here
+                              //   } else {
+                              //     // Handle unsuccessful, processing, or canceled payments and API errors here
+                              //   }
+                              // });
                         },
                         error: function (err) {
                             console.log("err", err)

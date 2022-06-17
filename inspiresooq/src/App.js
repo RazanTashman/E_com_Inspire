@@ -28,7 +28,8 @@ function App() {
 
       <BrowserRouter>
         <Switch>
-          <Route path='/' component={Home}></Route>
+          <Route path ='/' exact component ={Home}></Route>
+          <Route path='/home' component={Home}></Route>
           <Route path='/signup' component={SignUp}></Route>
           <Route path='/login' component={LogIn}></Route>
           <Route path='/peofile' component={Peofile}></Route>

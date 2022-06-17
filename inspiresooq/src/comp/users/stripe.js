@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import $ from "jquery"
 import card from "../../images/credit-card2.png"
@@ -8,35 +8,35 @@ const stripePromise = loadStripe('pk_test_51I2EmfHMNxPi9ODU4HqB24duE4tbZs2cADjQy
 
 function CheckoutForm(props) {
 
- function addOrder(){
-    var that = this
-    var data = {
-        userId: localStorage.getItem("id"),
-        cartId: props.order,
-        shopId: props.shop,
-    }
-    console.log("purchase", data)
+//  function addOrder(){
+//     var that = this
+//     var data = {
+//         userId: localStorage.getItem("id"),
+//         cartId: props.order,
+//         shopId: props.shop,
+//     }
+//     console.log("purchase", data)
 
-    $.ajax({
-        method: 'POST',
-        data: JSON.stringify(data),
-        url: `http://localhost:5000/addorder`,
-        contentType: "application/json",
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-        success: function (data) {
-            for (var i = 0; i < that.state.order.length; i++) {
-                // that.delete(that.state.order[i])
-            }
+//     $.ajax({
+//         method: 'POST',
+//         data: JSON.stringify(data),
+//         url: `http://localhost:5000/addorder`,
+//         contentType: "application/json",
+//         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+//         success: function (data) {
+//             for (var i = 0; i < that.state.order.length; i++) {
+//                 // that.delete(that.state.order[i])
+//             }
 
-        },
-        error: function (err) {
-            console.log("err", err)
-            // that.setState({ emailError: err.responseText })
+//         },
+//         error: function (err) {
+//             console.log("err", err)
+//             // that.setState({ emailError: err.responseText })
 
-        }
-    })
+//         }
+//     })
 
-}
+// }
 
 
 //   const [session, setSession] = useState("")
@@ -116,7 +116,7 @@ function CheckoutForm(props) {
     <button role="link" 
     style ={buttons}
     onClick={handleClick}>
-        <img src ={card}  style ={{width : "20%" , height: "110%", padding: "6px",}}/>
+        <img src ={card} alt='card' style ={{width : "20%" , height: "110%", padding: "6px",}}/>
          buy For ${props.price}
     </button>
   );

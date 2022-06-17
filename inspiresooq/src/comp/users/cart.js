@@ -4,9 +4,9 @@ import close from '../../images/close.png'
 import Nav from '../navBar/navBar'
 import plus from "../../images/plus.png"
 import minus from "../../images/minus.png"
-import GooglePayButton from '@google-pay/button-react'
+// import GooglePayButton from '@google-pay/button-react'
 import CheckoutForm from './stripe';
-import { CardElement } from '@stripe/react-stripe-js';
+// import { CardElement } from '@stripe/react-stripe-js';
 
 class Cart extends React.Component {
     constructor() {
@@ -43,7 +43,7 @@ class Cart extends React.Component {
     counter(count, id, type) {
         var that = this
         function qty() {
-
+  
             if (type === "plus") {
                 var q = that.state.products[count].qty + 1
                 return [q, q * that.state.products[count].price]

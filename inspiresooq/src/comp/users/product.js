@@ -1,6 +1,6 @@
 import React from "react"
 import $ from "jquery"
-import ProductImg from '../../images/pexels-oleg-magni-1005638.jpg'
+// import ProductImg from '../../images/pexels-oleg-magni-1005638.jpg'
 import Nav from '../navBar/navBar'
 import { Redirect } from 'react-router-dom'
 
@@ -135,7 +135,7 @@ class Product extends React.Component {
                             <div style={{ float: "right", marginTop: "20%" }}>
                                 {/* <div className="card" style={{ width: "50%" }}  style={{ marginTop: "15%" }}> */}
                                 {/* <img src= { URL.createObjectURL(new Blob( [  new Uint8Array(this.state.image) ], {type: "image"}) )}style={{ marginTop: "20%", width: "50%" }} alt="Image" /> */}
-                                <img src= {this.state.image }style={{ marginTop: "20%", width: "50%" }} alt="Image" />
+                                <img src= {this.state.image }style={{ marginTop: "20%", width: "50%" }} alt="product" />
 
                                 <h6 style={{ color: "gray", fontSize: "22px" }}> <b style={{ color: "rgb(92, 91, 91)" }} ></b>{this.state.description}</h6>
                             </div>

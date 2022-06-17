@@ -1,6 +1,6 @@
 import React from "react"
 import $ from "jquery"
-import close from '../../images/close.png'
+// import close from '../../images/close.png'
 import Nav from '../navBar/navBar'
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_51I2EmfHMNxPi9ODU4HqB24duE4tbZs2cADjQyb8USqqeSeN2IWQPtUXXiAqkfuE6zucT57qClhLZiSpPCAbT35Q900Y8rcf3aF');
@@ -27,10 +27,10 @@ class Orders extends React.Component {
             success: function (orders) {
                 console.log("orders:",orders)
                 // that.setState({ products: data })
-                orders.map((order) => {
+                orders.map((order) => (
                 //   if(order.status === 'succeeded' )
                 //    that.state.products.push(order.id)
-              console.log("(order.paymentId",order.paymentId)
+            //   console.log("(order.paymentId",order.paymentId)
 
               stripe.retrievePaymentIntent(order.paymentId).then(function(response) {
                 console.log("response",response.paymentIntent.status)
@@ -42,7 +42,7 @@ class Orders extends React.Component {
                     
                   // Handle successful payment here
                 } 
-              });
+              })
 
 
             //     stripe.confirmCardPayment(order.paymentId).then(function(response) {
@@ -56,7 +56,7 @@ class Orders extends React.Component {
             //     that.setState({products: that.state.products.push(JSON.parse(order.items))  })
             //   }
             // });
-        })
+                ))
                
             },
             error: function (err) {
@@ -93,7 +93,7 @@ class Orders extends React.Component {
                         <div className="row " style={border}>
                                 <div className="col-sm-6" style={{ marginLeft: "10%" }}  >
                                     <div style={{ marginTop: "13%" }}>
-                                        <img src={product.images} style={{ marginTop: "2%", marginLeft: "2%", width: "30%" }} alt="Image" />
+                                        <img src={product.images} style={{ marginTop: "2%", marginLeft: "2%", width: "30%" }} alt="product" />
                                         <div style={{ width: "70%", marginLeft: "13%" }}>
                                             <br />
                                             <h6 style={{ color: "gray", fontSize: "15px" }}> <b style={{ color: "rgb(92, 91, 91)" }} ></b>{product.description}</h6>

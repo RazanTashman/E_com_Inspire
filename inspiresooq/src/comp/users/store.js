@@ -128,7 +128,6 @@ class Store extends React.Component {
                 <div className="container" >
                     <div className="row" style={{ marginTop: "14%" }}>
                         {this.state.products.map((product,index) => {
-                            { console.log("product", product) }
                             return (
 
                                 <div className="col-sm-3"  >
@@ -157,7 +156,7 @@ class Store extends React.Component {
                 <a href={`tel:0${this.state.phoneNo}`}>
                 {/* 817ce9 */}
                     {/* <a href= "tel:799460706"> */}
-                    <img src={call} className="fixed-bottom" style={{ border: "1px solid #ccc", borderRadius: "40px", color: "white", padding: "10px", marginLeft: "93%", width: "4%", background: "#6A1B4D" }} />
+                    <img alt ='call icon' src={call} className="fixed-bottom" style={{ border: "1px solid #ccc", borderRadius: "40px", color: "white", padding: "10px", marginLeft: "93%", width: "4%", background: "#6A1B4D" }} />
                 </a>
             </div>
         )

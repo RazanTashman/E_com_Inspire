@@ -2,7 +2,7 @@ import React from "react"
 import $ from "jquery"
 import Nav from '../navBar/navBar'
 import HorizontalGallery from 'react-dynamic-carousel'
-import image1 from "../../images/productss.jpg"
+// import image1 from "../../images/productss.jpg"
 
 
 class User extends React.Component {
@@ -184,7 +184,7 @@ class User extends React.Component {
                                         }}
                                     >
                                         <div id="gallery">
-                                            <img className="  card-img-top" style={{ width: "100%", opacity: "0.8" }} src={category.catImage} style={{ width: "100%" }} onClick={() => this.filtration(category.catId)} />
+                                            <img alt='category' className="  card-img-top" style={{ width: "100%", opacity: "0.8" }} src={category.catImage} onClick={() => this.filtration(category.catId)} />
                                             <div id="gallery" className="card-body" style={{ marginTop: "0%", color: "black", fontWeight: "bold", opacity: 0.8, background: "#d7d7d7", padding: "3px" }}>
                                                 <h1 className="card-text" >{category.category}</h1>
                                             </div>
@@ -203,7 +203,7 @@ class User extends React.Component {
                             return (
                                 <div className="col-sm-4" >
                                     <div className="card categories" style={{ marginTop: "24%" }} onClick={() => this.filtration(category.category)} >
-                                        <img className="card-img-top" style={{ opacity: "0.8" }} src={category.image} alt="Category" />
+                                        <img alt='image' className="card-img-top" style={{ opacity: "0.8" }} src={category.image} alt="Category" />
                                         <div className="card-body" style={{ marginTop: "-40%", color: "black", fontWeight: "bold", opacity: 0.8, background: "#d7d7d7", padding: "3px" }}>
                                             <h1 className="card-text" >{category.category}</h1>
                                         </div>
@@ -222,7 +222,7 @@ class User extends React.Component {
                                 return (
                                     <div className="col-sm-2" >
                                         <div  style={{ marginTop: "24%"}}  >
-                                            <img style={{ opacity: "0.8",  width:"40%",  cursor: "pointer"}} src={subcat.subcatImage } alt="Category" onClick={() => this.subFiltration(subcat.subCatId)} />
+                                            <img  style={{ opacity: "0.8",  width:"40%",  cursor: "pointer"}} src={subcat.subcatImage } alt="Category" onClick={() => this.subFiltration(subcat.subCatId)} />
                                             {/* <div className="card-body" style={{  marginTop: "-40%",  width:"100%", color: "black", fontWeight: "bold", opacity: 0.8, background: "#d7d7d7", padding: "3px" }}>
                                                 <h1 className="card-text" >{subcat.subCat}</h1>
                                             </div> */}
@@ -240,9 +240,9 @@ class User extends React.Component {
                                 return (
                                     <div className="col-sm-3" >
                                         <div className="card categories" style={{ marginBottom: "4%" }} >
-                                            <div className="card-body" style={{ height: "470px" }} className="categories" onClick={() => this.getProduct(product.productId)}>
-                                                {/* <img src={URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )}  alt="Product" style={{width:"100%"}}/> */}
-                                                <img src={product.image} alt="Product" style={{ width: "100%" }} />
+                                            <div className="card-body categories" style={{ height: "470px" }}  onClick={() => this.getProduct(product.productId)}>
+                                                {/* <img alt='image' src={URL.createObjectURL(new Blob( [  new Uint8Array(product.image.data) ], {type: "image"}) )}  alt="Product" style={{width:"100%"}}/> */}
+                                                <img  src={product.image} alt="Product" style={{ width: "100%" }} />
                                                 <div >
                                                     <h1>{product.productName}</h1>
                                                     <p className="price">{product.price}</p>

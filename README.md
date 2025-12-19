@@ -1,21 +1,43 @@
-# E_com_Inspire
+Caravan (E-Commerce Platform)
+This repository contains the front-end and back-end implementation of an E-commerce platform built using the MERN stack with MySQL, Stripe for payments, and Firebase for authentication and hosting.
 
-## Description
-An E-commerce site has been built using React, Express, Mysql, Stripe to buy and sell stuff, you can add remove, edit the product as a shop and you can buy them
+🔗 Demo: Watch the demo on YouTube
 
->It has 3 users:
--  Admin: To manage the categories and sub-categories.
--  Shops: To add their products, manage them, and use their account as a user just by switching the role in it.
-- Users: For shopping and they can buy the products by different credit cards.
+🧾 Abstract
+A full-featured E-commerce web application that allows users to buy and sell products, with role-based access and a smooth user experience. The platform supports three types of users, each with their own set of permissions and dashboards.
 
-## STACK USED :
-- React
-- Node JS
-- Express
-- MySql
-- Firebase
-- Stripe
+👥 User Roles Multi-Role System
+Admin
 
+Manage categories and sub-categories.
+Oversee platform-level configurations.
+Shop Owners
+
+Add, update, and delete their own products.
+Switch roles to act as regular users for shopping.
+Track their sales and products.
+Users
+
+Browse and shop for products.
+Purchase via Stripe using various credit cards.
+View order history and track purchases.
+🛠️ Tech Stack
+Frontend
+
+React.js
+Firebase
+Backend
+
+Node.js
+Express.js
+MySQL
+Payments
+
+Stripe API
+💡 Features
+Role-based authentication & dashboard views
+Real-time product management for shop owners
+Secure Stripe integration for payments
 
 ## How to get started 
 ```bash
